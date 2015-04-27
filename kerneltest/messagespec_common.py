@@ -10,13 +10,12 @@ message specification.
 # Distributed under the terms of the Modified BSD License.
 
 import re
-import sys
 from distutils.version import LooseVersion as V
 
 import nose.tools as nt
 
 from IPython.utils.traitlets import (
-    HasTraits, TraitError, Bool, Unicode, Dict, Integer, List, Enum,
+    HasTraits, TraitError, Unicode, Dict
 )
 from IPython.utils.py3compat import string_types, iteritems
 

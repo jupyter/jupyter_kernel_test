@@ -3,7 +3,14 @@
 # Copyright (c) IPython Development Team.
 # Distributed under the terms of the Modified BSD License.
 
-from IPython.testing.messagespec_common import *
+import sys
+
+import nose.tools as nt
+from traitlets import (
+    Bool, Unicode, Dict, Integer, List, Enum,
+)
+
+from .messagespec_common import Reference, MimeBundle, Version
 
 # message and header formats specific to verion 5
 

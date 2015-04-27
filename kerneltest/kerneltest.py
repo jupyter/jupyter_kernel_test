@@ -16,10 +16,7 @@ except ImportError:
     from Queue import Empty  # Py 2
 
 import nose.tools as nt
-
-from IPython.kernel import manager
-
-from IPython.testing.messagespec_common import *
+from jupyter_client import manager
 
 #-------------------------------------------------------------------------
 # Globals
