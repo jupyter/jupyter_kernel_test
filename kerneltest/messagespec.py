@@ -81,13 +81,13 @@ class CompleteReply(Reference):
     status = Unicode()
 
 class LanguageInfo(Reference):
-    name = Unicode('python')
+    name = Unicode()
     version = Unicode(sys.version.split()[0])
 
 class KernelInfoReply(Reference):
     protocol_version = Version(min='5.0')
-    implementation = Unicode('ipython')
-    implementation_version = Version(min='2.1')
+    implementation = Unicode()
+    implementation_version = Version()
     language_info = Dict()
     banner = Unicode()
     
@@ -157,9 +157,6 @@ references = {
 
 def validate_message(msg, msg_type=None, parent=None):
     """validate a message
-    
-    This is a generator, and must be iterated through to actually
-    trigger each test.
     
     If msg_type and/or parent are given, the msg_type and/or parent msg_id
     are compared with the given values.
