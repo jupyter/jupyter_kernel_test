@@ -44,3 +44,29 @@ class KernelTests(TestCase):
         if self.language_name:
             self.assertEqual(reply['content']['language_info']['name'],
                              self.language_name)
+
+    code_hello_world = ""
+
+    def test_execute_stdout(self):
+        if not self.code_hello_world:
+            raise SkipTest
+
+        self.flush_channels()
+        msg_id = self.kc.execute(code=self.code_hello_world)
+
+        iopub_msg = self.kc.iopub_channel.get_msg(timeout=TIMEOUT)
+        if iopub_msg['msg_type'] == 'status':
+            validate_message(iopub_msg, 'status', msg_id)
+            self.assertEqual(iopub_msg['content']['execution_state'], 'busy')
+            iopub_msg = self.kc.iopub_channel.get_msg(timeout=TIMEOUT)
+        validate_message(iopub_msg, 'execute_input', msg_id)
+        self.assertEqual(iopub_msg['content']['code'], self.code_hello_world)
+
+        iopub_msg = self.kc.iopub_channel.get_msg(timeout=TIMEOUT)
+        validate_message(iopub_msg, 'stream', msg_id)
+        self.assertEqual(iopub_msg['content']['name'], 'stdout')
+        self.assertIn('hello, world', iopub_msg['content']['text'])
+
+        reply = self.kc.get_shell_msg(timeout=TIMEOUT)
+        validate_message(reply, 'execute_reply', msg_id)
+        self.assertEqual(reply['content']['status'], 'ok')
