@@ -70,3 +70,17 @@ class KernelTests(TestCase):
         reply = self.kc.get_shell_msg(timeout=TIMEOUT)
         validate_message(reply, 'execute_reply', msg_id)
         self.assertEqual(reply['content']['status'], 'ok')
+
+    completion_samples = []
+
+    def test_completion(self):
+        if not self.completion_samples:
+            raise SkipTest
+
+        for sample in self.completion_samples:
+            msg_id = self.kc.complete(sample['text'])
+            reply = self.kc.get_shell_msg()
+            validate_message(reply, 'complete_reply', msg_id)
+            if 'matches' in sample:
+                self.assertEqual(set(reply['content']['matches']),
+                                 set(sample['matches']))
