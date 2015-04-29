@@ -21,7 +21,7 @@ Use it like this:
 
         # Optional --------------------------------------
 
-        # Tab completions. In each dictionary, text is the input, which it will
+        # Tab completions: in each dictionary, text is the input, which it will
         # try to complete from the end of. matches is the collection of results
         # it should expect.
         completion_samples = [
@@ -30,6 +30,11 @@ Use it like this:
                 'matches': {'zip'},
             },
         ]
+
+        # Code completeness: samples grouped by expected result
+        complete_code_samples = ['print "hi"']
+        incomplete_code_samples = ['function a1 a2 ->', '"""in a string']
+        invalid_code_samples = ['import = 7q']
 
     if __name__ == '__main__':
         unittest.main()

@@ -84,3 +84,29 @@ class KernelTests(TestCase):
             if 'matches' in sample:
                 self.assertEqual(set(reply['content']['matches']),
                                  set(sample['matches']))
+
+    complete_code_samples = []
+    incomplete_code_samples = []
+    invalid_code_samples = []
+
+    def check_is_complete(self, sample, status):
+        msg_id = self.kc.is_complete(sample)
+        reply = self.kc.get_shell_msg()
+        validate_message(reply, 'is_complete_reply', msg_id)
+        self.assertEqual(reply['content']['status'], status)
+
+    def test_is_complete(self):
+        if not (self.complete_code_samples
+                or self.incomplete_code_samples
+                or self.invalid_code_samples):
+            raise SkipTest
+
+        for sample in self.complete_code_samples:
+            self.check_is_complete(sample, 'complete')
+
+        for sample in self.incomplete_code_samples:
+            self.check_is_complete(sample, 'incomplete')
+
+        for sample in self.invalid_code_samples:
+            self.check_is_complete(sample, 'invalid')
+
