@@ -6,9 +6,6 @@
 from __future__ import absolute_import, print_function
 
 import atexit
-import json
-import sys
-from importlib import import_module
 
 try:
     from queue import Empty  # Py 3
@@ -233,97 +230,3 @@ def check_display_data(test_code):
     validate_message(display, 'display_data', parent=msg_id)
     data = display['content']['data']
     return data
-
-# Mapping of message types, check methods and the parameters needed.
-# The test runner will validate the number of parameters based on 
-# the params list and not run any check which does not have all the
-# parameters. This keeps the design flexibale to add more message
-# types easily
-checks = {
-    'execute': {"f": check_execute, "params": ["test_code"]},
-    'user_expressions': {"f": check_user_expressions, "params": ["test_code", "user_expression"]},
-    'oinfo': {"f": check_oinfo, "params": ["inspect_object"]},
-    'complete': {"f": check_complete, "params": ["test_code"]},
-    'kernel_info': {"f": check_kernel_info, "params": []},
-    'single_payload': {"f": check_single_payload, "params": ["test_code"]},
-    'is_complete': {"f": check_is_complete, "params": ["test_code"]},
-    'history_range': {"f": check_history_range, "params": ["test_code"]},
-    'history_tail': {"f": check_history_tail, "params": ["test_code"]},
-    'history_search': {"f": check_history_search, "params": ["test_code"]},
-    'stream': {"f": check_stream, "params": ["test_code"]},
-    'display_data': {"f": check_display_data, "params": ["test_code"]},
-}
-
-
-#takes one message type, gets the params and runs the check
-def run_test(message, data):
-    test_info = checks[message]
-    f = test_info["f"]
-    params = test_info["params"]
-    args = []
-    missing = [param for param in params if param not in data]
-    if params.__len__() > 0 and missing.__len__() > 0:
-        print("Missing parameters for test %s. Missing parameters - %s\n" %
-              (message, missing))
-        return
-    else:
-        args = [data[param] for param in params]
-    return f(*args)
-
-#load the json script and run through the tests
-def run_defined_tests(kernel, test_file,spec_version):
-
-    global KC, KM, validate_message
-    
-    #get the validator and import the spec
-    validate_message = get_message_spec_validator(spec_version)
-    
-    if KC is None:
-        start_global_kernel(kernel)
-
-    with open(test_file, 'r') as test_script:
-        tests = json.loads(test_script.read())
-        for key in tests.keys():
-            data = tests[key]
-            print("Running test for %s with data %s\n" % (key, data))
-            result = run_test(key, data)
-            print("Test returned - %s\n" % (result,))
-
-# method to get the correct message spec version for the test
-def get_message_spec_validator(spec_version):
-    
-    """
-    
-    For now there is only one version of the message specification that can be tested.
-    As more versions are added this will be expanded to import the correct version to 
-    be used for the kernel tests.
-    
-    The choice will be made based on spec_version
-    
-    Every version of message spec should implement a validation method that takes 3
-    parameters message, message type and a parent. The message type and parent are
-    optional for validation.
-    
-    """
-    spec_module = import_module('IPython.testing.messagespec')
-    return spec_module.validate_message
-
-def main():
-    
-    args = sys.argv[1:]
-    if args.__len__() < 2:
-        print('Usage: python kerneltest.py <kernel name> <test script file> <optional message spec version>')
-        print('\nIf no messsage spec version is specified then vresion 5 is assumed.')
-        print('\nTest script format : \n{\n\t<message type>:{\n\t\tparam_1_name:param_1_value,.....\n\t}\n}')
-        print('\nSupported message types \n%s'%(checks.keys()))
-    else:
-        if(args.__len__() == 3):
-            spec_version = args[2]
-        else:
-            spec_version = 5
-        
-        print("Using kernel %s and test script %s. Message spec version %s\n\n"%(args[0],args[1],spec_version))
-        run_defined_tests(args[0],args[1],spec_version)
-
-if __name__=='__main__':
-    main()
