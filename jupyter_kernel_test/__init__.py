@@ -1,3 +1,6 @@
+"""Machinery for testing Jupyter kernels via the messaging protocol.
+"""
+
 from unittest import TestCase, SkipTest
 try:                  # Python 3
     from queue import Empty
@@ -9,6 +12,8 @@ import abc
 from jupyter_client.manager import start_new_kernel
 from .kerneltest import TIMEOUT
 from .messagespec import validate_message
+
+__version__ = '0.1'
 
 class KernelTests(TestCase):
     kernel_name = ""
