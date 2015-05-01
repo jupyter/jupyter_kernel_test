@@ -36,6 +36,9 @@ Use it like this:
         incomplete_code_samples = ['function a1 a2 ->', '"""in a string']
         invalid_code_samples = ['import = 7q']
 
+        # Pager: code that should display something (anything) in the pager
+        code_page_something = "help('foldl')"
+
     if __name__ == '__main__':
         unittest.main()
 
