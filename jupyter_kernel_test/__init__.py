@@ -112,7 +112,10 @@ class KernelTests(TestCase):
         msg_id = self.kc.is_complete(sample)
         reply = self.kc.get_shell_msg()
         validate_message(reply, 'is_complete_reply', msg_id)
-        self.assertEqual(reply['content']['status'], status)
+        if reply['content']['status'] != status:
+            msg = "For code sample\n  {!r}\nExpected {!r}, got {!r}."
+            raise AssertionError(msg.format(sample, status,
+                                            reply['content']['status']))
 
     def test_is_complete(self):
         if not (self.complete_code_samples
