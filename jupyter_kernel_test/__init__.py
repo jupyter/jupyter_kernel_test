@@ -11,7 +11,7 @@ import abc
 
 from jupyter_client.manager import start_new_kernel
 from .kerneltest import TIMEOUT
-from .messagespec import validate_message
+from .messagespec import validate_message, MimeBundle
 
 __version__ = '0.1'
 
@@ -50,6 +50,30 @@ class KernelTests(TestCase):
             self.assertEqual(reply['content']['language_info']['name'],
                              self.language_name)
 
+    def execute_helper(self, code, timeout=TIMEOUT):
+        msg_id = self.kc.execute(code=code)
+
+        reply = self.kc.get_shell_msg(timeout=timeout)
+        validate_message(reply, 'execute_reply', msg_id)
+
+        busy_msg = self.kc.iopub_channel.get_msg(timeout=1)
+        validate_message(busy_msg, 'status', msg_id)
+        self.assertEqual(busy_msg['content']['execution_state'], 'busy')
+
+        output_msgs = []
+        while True:
+            msg = self.kc.iopub_channel.get_msg(timeout=0.1)
+            validate_message(msg, msg['msg_type'], msg_id)
+            if msg['msg_type'] == 'status':
+                self.assertEqual(msg['content']['execution_state'], 'idle')
+                break
+            elif msg['msg_type'] == 'execute_input':
+                self.assertEqual(msg['content']['code'], code)
+                continue
+            output_msgs.append(msg)
+
+        return reply, output_msgs
+
     code_hello_world = ""
 
     def test_execute_stdout(self):
@@ -57,24 +81,14 @@ class KernelTests(TestCase):
             raise SkipTest
 
         self.flush_channels()
-        msg_id = self.kc.execute(code=self.code_hello_world)
+        reply, output_msgs = self.execute_helper(code=self.code_hello_world)
 
-        iopub_msg = self.kc.iopub_channel.get_msg(timeout=TIMEOUT)
-        if iopub_msg['msg_type'] == 'status':
-            validate_message(iopub_msg, 'status', msg_id)
-            self.assertEqual(iopub_msg['content']['execution_state'], 'busy')
-            iopub_msg = self.kc.iopub_channel.get_msg(timeout=TIMEOUT)
-        validate_message(iopub_msg, 'execute_input', msg_id)
-        self.assertEqual(iopub_msg['content']['code'], self.code_hello_world)
-
-        iopub_msg = self.kc.iopub_channel.get_msg(timeout=TIMEOUT)
-        validate_message(iopub_msg, 'stream', msg_id)
-        self.assertEqual(iopub_msg['content']['name'], 'stdout')
-        self.assertIn('hello, world', iopub_msg['content']['text'])
-
-        reply = self.kc.get_shell_msg(timeout=TIMEOUT)
-        validate_message(reply, 'execute_reply', msg_id)
         self.assertEqual(reply['content']['status'], 'ok')
+
+        self.assertEqual(len(output_msgs), 1)
+        self.assertEqual(output_msgs[0]['msg_type'], 'stream')
+        self.assertEqual(output_msgs[0]['content']['name'], 'stdout')
+        self.assertIn('hello, world', output_msgs[0]['content']['text'])
 
     completion_samples = []
 
@@ -115,3 +129,18 @@ class KernelTests(TestCase):
         for sample in self.invalid_code_samples:
             self.check_is_complete(sample, 'invalid')
 
+    code_page_something = ""
+
+    def test_pager(self):
+        if not self.code_page_something:
+            raise SkipTest
+
+        reply, output_msgs = self.execute_helper(self.code_page_something)
+        self.assertEqual(reply['content']['status'],  'ok')
+        payloads = reply['content']['payload']
+        self.assertEqual(len(payloads), 1)
+        self.assertEqual(payloads[0]['source'], 'page')
+        mimebundle = payloads[0]['data']
+        # Validate the mimebundle
+        MimeBundle().data = mimebundle
+        self.assertIn('text/plain', mimebundle)
