@@ -120,6 +120,8 @@ class KernelTests(TestCase):
                 or self.invalid_code_samples):
             raise SkipTest
 
+        self.flush_channels()
+
         for sample in self.complete_code_samples:
             self.check_is_complete(sample, 'complete')
 
@@ -134,6 +136,8 @@ class KernelTests(TestCase):
     def test_pager(self):
         if not self.code_page_something:
             raise SkipTest
+
+        self.flush_channels()
 
         reply, output_msgs = self.execute_helper(self.code_page_something)
         self.assertEqual(reply['content']['status'],  'ok')
