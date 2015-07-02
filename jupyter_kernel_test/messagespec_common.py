@@ -14,10 +14,11 @@ from distutils.version import LooseVersion as V
 
 import nose.tools as nt
 
-from IPython.utils.traitlets import (
+from traitlets import (
     HasTraits, TraitError, Unicode, Dict
 )
-from IPython.utils.py3compat import string_types, iteritems
+
+string_types = (str, type(u''))
 
 #-----------------------------------------------------------------------------
 # Message Spec References
@@ -67,6 +68,6 @@ class MimeBundle(Reference):
     metadata = Dict()
     data = Dict()
     def _data_changed(self, name, old, new):
-        for k,v in iteritems(new):
+        for k,v in new.items():
             assert mime_pat.match(k)
             nt.assert_is_instance(v, string_types)
