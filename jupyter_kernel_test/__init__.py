@@ -85,7 +85,7 @@ class KernelTests(TestCase):
 
         self.assertEqual(reply['content']['status'], 'ok')
 
-        self.assertEqual(len(output_msgs), 1)
+        self.assertGreaterEqual(len(output_msgs), 1)
         self.assertEqual(output_msgs[0]['msg_type'], 'stream')
         self.assertEqual(output_msgs[0]['content']['name'], 'stdout')
         self.assertIn('hello, world', output_msgs[0]['content']['text'])
