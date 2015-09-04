@@ -1,13 +1,17 @@
-kerneltest is a tool for testing Jupyter kernels.
+jupyter_kernel_test is a tool for testing Jupyter kernels.
+
+Install it with pip::
+
+    pip install jupyter_kernel_test
 
 Use it like this:
 
 .. code-block:: python
 
     import unittest
-    import kerneltest
+    import jupyter_kernel_test
 
-    class MyKernelTests(kerneltest.KernelTests):
+    class MyKernelTests(jupyter_kernel_test.KernelTests):
         # Required --------------------------------------
 
         # The name identifying an installed kernel to run the tests against
@@ -16,10 +20,10 @@ Use it like this:
         # language_info.name in a kernel_info_reply should match this
         language_name = "dg"
 
+        # Optional --------------------------------------
+
         # Code in the kernel's language to write "hello, world" to stdout
         code_hello_world = "print 'hello, world'"
-
-        # Optional --------------------------------------
 
         # Tab completions: in each dictionary, text is the input, which it will
         # try to complete from the end of. matches is the collection of results
@@ -42,4 +46,5 @@ Use it like this:
     if __name__ == '__main__':
         unittest.main()
 
-Run this file directly using python, or use nosetests/py.test to find and run it.
+Run this file directly using python, or use nosetests/py.test to find and
+run it.
