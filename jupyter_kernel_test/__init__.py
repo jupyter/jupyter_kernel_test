@@ -7,11 +7,10 @@ try:                  # Python 3
 except ImportError:   # Python 2
     from Queue import Empty
 
-import abc
-
 from jupyter_client.manager import start_new_kernel
-from .kerneltest import TIMEOUT
 from .messagespec import validate_message, MimeBundle
+
+TIMEOUT = 15
 
 __version__ = '0.1'
 
