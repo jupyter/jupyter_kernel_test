@@ -24,7 +24,7 @@ class KernelTests(TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.kc.stop_channels()
-        cls.km.shutdown_kernel(now=True)
+        cls.km.shutdown_kernel()
 
     def flush_channels(self):
         for channel in (self.kc.shell_channel, self.kc.iopub_channel):
