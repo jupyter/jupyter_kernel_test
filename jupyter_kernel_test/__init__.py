@@ -150,3 +150,49 @@ class KernelTests(TestCase):
         # Validate the mimebundle
         MimeBundle().data = mimebundle
         self.assertIn('text/plain', mimebundle)
+
+    code_generate_error = ""
+
+    def test_error(self):
+        if not self.code_generate_error:
+            raise SkipTest
+
+        self.flush_channels()
+
+        reply, output_msgs = self.execute_helper(self.code_generate_error)
+        self.assertEqual(reply['content']['status'], 'error')
+
+    code_execute_result = []
+
+    def test_execute_result(self):
+        if not self.code_execute_result:
+            raise SkipTest
+
+        for sample in self.code_execute_result:
+            self.flush_channels()
+
+            reply, output_msgs = self.execute_helper(sample['code'])
+
+            self.assertEqual(reply['content']['status'], 'ok')
+
+            self.assertGreaterEqual(len(output_msgs), 1)
+            self.assertEqual(output_msgs[0]['msg_type'], 'execute_result')
+            self.assertIn('text/plain', output_msgs[0]['content']['data'])
+            self.assertEqual(output_msgs[0]['content']['data']['text/plain'],
+                             sample['result'])
+
+    code_display_data = []
+
+    def test_display_data(self):
+        if not self.code_display_data:
+            raise SkipTest
+
+        for sample in self.code_display_data:
+            self.flush_channels()
+            reply, output_msgs = self.execute_helper(sample['code'])
+
+            self.assertEqual(reply['content']['status'], 'ok')
+
+            self.assertGreaterEqual(len(output_msgs), 1)
+            self.assertEqual(output_msgs[0]['msg_type'], 'display_data')
+            self.assertIn(sample['mime'], output_msgs[0]['content']['data'])

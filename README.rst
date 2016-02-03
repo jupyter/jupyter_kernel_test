@@ -43,6 +43,22 @@ Use it like this:
         # Pager: code that should display something (anything) in the pager
         code_page_something = "help('foldl')"
 
+        # Code which the frontend should display an error for
+        code_generate_error = "raise"
+
+        # Samples of code which generate a result value (ie, some text
+        # displayed as Out[n])
+        code_execute_result = [
+            {'code': "1+1", 'result': "2"}
+        ]
+
+        # Samples of code which should generate a rich display output, and
+        # the expected MIME type
+        code_display_data = [
+            {'code': "display(HTML('<b>test</b>'))", 'mime': "text/html"},
+            {'code': "display(Math('\\frac{1}{2}'))", 'mime': "text/latex"}
+        ]
+
     if __name__ == '__main__':
         unittest.main()
 

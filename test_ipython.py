@@ -22,5 +22,18 @@ class IRkernelTests(jkt.KernelTests):
 
     code_page_something = "zip?"
 
+    code_generate_error = "raise"
+
+    code_execute_result = [
+        {'code': "1+1", 'result': "2"}
+    ]
+
+    code_display_data = [
+        {'code': "from IPython.display import HTML, display; display(HTML('<b>test</b>'))",
+         'mime': "text/html"},
+        {'code': "from IPython.display import Math, display; display(Math('\\frac{1}{2}'))",
+         'mime': "text/latex"}
+    ]
+
 if __name__ == '__main__':
     unittest.main()
