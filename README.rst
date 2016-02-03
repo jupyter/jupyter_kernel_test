@@ -48,15 +48,15 @@ Use it like this:
 
         # Samples of code which generate a result value (ie, some text
         # displayed as Out[n])
-        code_output_samples = [
+        code_execute_result = [
             {'code': "1+1", 'result': "2"}
         ]
 
         # Samples of code which should generate a rich display output, and
         # the expected MIME type
-        code_mime_samples = [
-            {'code': "HTML('<b>test</b>')", 'mime': "text/html"},
-            {'code': "Math('\\frac{1}{2}')", 'mime': "text/latex"}
+        code_display_data = [
+            {'code': "display(HTML('<b>test</b>'))", 'mime': "text/html"},
+            {'code': "display(Math('\\frac{1}{2}'))", 'mime': "text/latex"}
         ]
 
     if __name__ == '__main__':

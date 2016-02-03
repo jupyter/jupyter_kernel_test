@@ -24,14 +24,14 @@ class IRkernelTests(jkt.KernelTests):
 
     code_generate_error = "raise"
 
-    code_output_samples = [
+    code_execute_result = [
         {'code': "1+1", 'result': "2"}
     ]
 
-    code_mime_samples = [
-        {'code': "from IPython.display import HTML; HTML('<b>test</b>')",
+    code_display_data = [
+        {'code': "from IPython.display import HTML, display; display(HTML('<b>test</b>'))",
          'mime': "text/html"},
-        {'code': "from IPython.display import Math; Math('\\frac{1}{2}')",
+        {'code': "from IPython.display import Math, display; display(Math('\\frac{1}{2}'))",
          'mime': "text/latex"}
     ]
 
