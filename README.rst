@@ -49,7 +49,7 @@ Use it like this:
         # Samples of code which generate a result value (ie, some text
         # displayed as Out[n])
         code_execute_result = [
-            {'code': "1+1", 'result': "2"}
+            {'code': "1+2+3", 'result': "6"}
         ]
 
         # Samples of code which should generate a rich display output, and
@@ -58,6 +58,14 @@ Use it like this:
             {'code': "display(HTML('<b>test</b>'))", 'mime': "text/html"},
             {'code': "display(Math('\\frac{1}{2}'))", 'mime': "text/latex"}
         ]
+
+        # A sample history pattern (using ? and * globbing), which should
+        # match at least one 'code' sample in code_execute_result
+        code_history_pattern = "1?2*"
+
+        # A statement/object to which the kernel should respond with some
+        # information when inspected
+        code_inspect_sample = "zip"
 
     if __name__ == '__main__':
         unittest.main()

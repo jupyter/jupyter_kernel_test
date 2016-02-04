@@ -25,7 +25,8 @@ class IRkernelTests(jkt.KernelTests):
     code_generate_error = "raise"
 
     code_execute_result = [
-        {'code': "1+1", 'result': "2"}
+        {'code': "1+2+3", 'result': "6"},
+        {'code': "[n*n for n in range(1, 4)]", 'result': "[1, 4, 9]"}
     ]
 
     code_display_data = [
@@ -34,6 +35,10 @@ class IRkernelTests(jkt.KernelTests):
         {'code': "from IPython.display import Math, display; display(Math('\\frac{1}{2}'))",
          'mime': "text/latex"}
     ]
+
+    code_history_pattern = "1?2*"
+
+    code_inspect_sample = "zip"
 
 if __name__ == '__main__':
     unittest.main()
