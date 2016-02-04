@@ -64,3 +64,7 @@ Use it like this:
 
 Run this file directly using python, or use nosetests/py.test to find and
 run it.
+
+You can also avoid the unittest boilerplate by writing the necessary code
+samples in a YAML file, which can then be run with the ``test_kernels.py``
+script.
