@@ -37,6 +37,7 @@ class KernelTests(TestCase):
                     validate_message(msg)
 
     language_name = ""
+    file_extension = ""
 
     def test_kernel_info(self):
         self.flush_channels()
@@ -48,6 +49,12 @@ class KernelTests(TestCase):
         if self.language_name:
             self.assertEqual(reply['content']['language_info']['name'],
                              self.language_name)
+        if self.file_extension:
+            self.assertEqual(reply['content']['language_info']['file_extension'],
+                             self.file_extension)
+            self.assertTrue(reply['content']['language_info']['file_extension'].startswith("."))
+
+
 
     def execute_helper(self, code, timeout=TIMEOUT,
                        silent=False, store_history=True):

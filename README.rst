@@ -20,6 +20,10 @@ Use it like this:
         # language_info.name in a kernel_info_reply should match this
         language_name = "dg"
 
+        # language_info.file_extension, should match kernel_info_reply
+        # (and start with a dot)
+        file_extension = ".py"
+
         # Optional --------------------------------------
 
         # Code in the kernel's language to write "hello, world" to stdout

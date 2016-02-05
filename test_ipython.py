@@ -8,6 +8,8 @@ class IRkernelTests(jkt.KernelTests):
 
     language_name = "python"
 
+    file_extension = ".py"
+
     code_hello_world = "print('hello, world')"
 
     completion_samples = [
