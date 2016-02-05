@@ -174,6 +174,8 @@ class KernelTests(TestCase):
 
         reply, output_msgs = self.execute_helper(self.code_generate_error)
         self.assertEqual(reply['content']['status'], 'error')
+        self.assertEqual(len(output_msgs), 1)
+        self.assertEqual(output_msgs[0]['msg_type'], 'error')
 
     code_execute_result = []
 
