@@ -105,12 +105,13 @@ class KernelTests(TestCase):
             raise SkipTest
 
         for sample in self.completion_samples:
-            msg_id = self.kc.complete(sample['text'])
-            reply = self.kc.get_shell_msg()
-            validate_message(reply, 'complete_reply', msg_id)
-            if 'matches' in sample:
-                self.assertEqual(set(reply['content']['matches']),
-                                 set(sample['matches']))
+            with self.subTest(text=sample['text']):
+                msg_id = self.kc.complete(sample['text'])
+                reply = self.kc.get_shell_msg()
+                validate_message(reply, 'complete_reply', msg_id)
+                if 'matches' in sample:
+                    self.assertEqual(set(reply['content']['matches']),
+                                     set(sample['matches']))
 
     complete_code_samples = []
     incomplete_code_samples = []
@@ -133,14 +134,17 @@ class KernelTests(TestCase):
 
         self.flush_channels()
 
-        for sample in self.complete_code_samples:
-            self.check_is_complete(sample, 'complete')
+        with self.subTest(status="complete"):
+            for sample in self.complete_code_samples:
+                self.check_is_complete(sample, 'complete')
 
-        for sample in self.incomplete_code_samples:
-            self.check_is_complete(sample, 'incomplete')
+        with self.subTest(status="incomplete"):
+            for sample in self.incomplete_code_samples:
+                self.check_is_complete(sample, 'incomplete')
 
-        for sample in self.invalid_code_samples:
-            self.check_is_complete(sample, 'invalid')
+        with self.subTest(status="invalid"):
+            for sample in self.invalid_code_samples:
+                self.check_is_complete(sample, 'invalid')
 
     code_page_something = ""
 
@@ -178,17 +182,18 @@ class KernelTests(TestCase):
             raise SkipTest
 
         for sample in self.code_execute_result:
-            self.flush_channels()
+            with self.subTest(code=sample['code']):
+                self.flush_channels()
 
-            reply, output_msgs = self.execute_helper(sample['code'])
+                reply, output_msgs = self.execute_helper(sample['code'])
 
-            self.assertEqual(reply['content']['status'], 'ok')
+                self.assertEqual(reply['content']['status'], 'ok')
 
-            self.assertGreaterEqual(len(output_msgs), 1)
-            self.assertEqual(output_msgs[0]['msg_type'], 'execute_result')
-            self.assertIn('text/plain', output_msgs[0]['content']['data'])
-            self.assertEqual(output_msgs[0]['content']['data']['text/plain'],
-                             sample['result'])
+                self.assertGreaterEqual(len(output_msgs), 1)
+                self.assertEqual(output_msgs[0]['msg_type'], 'execute_result')
+                self.assertIn('text/plain', output_msgs[0]['content']['data'])
+                self.assertEqual(output_msgs[0]['content']['data']['text/plain'],
+                                 sample['result'])
 
     code_display_data = []
 
@@ -197,14 +202,15 @@ class KernelTests(TestCase):
             raise SkipTest
 
         for sample in self.code_display_data:
-            self.flush_channels()
-            reply, output_msgs = self.execute_helper(sample['code'])
+            with self.subTest(code=sample['code']):
+                self.flush_channels()
+                reply, output_msgs = self.execute_helper(sample['code'])
 
-            self.assertEqual(reply['content']['status'], 'ok')
+                self.assertEqual(reply['content']['status'], 'ok')
 
-            self.assertGreaterEqual(len(output_msgs), 1)
-            self.assertEqual(output_msgs[0]['msg_type'], 'display_data')
-            self.assertIn(sample['mime'], output_msgs[0]['content']['data'])
+                self.assertGreaterEqual(len(output_msgs), 1)
+                self.assertEqual(output_msgs[0]['msg_type'], 'display_data')
+                self.assertIn(sample['mime'], output_msgs[0]['content']['data'])
 
     def test_silent(self):
         self.flush_channels()
