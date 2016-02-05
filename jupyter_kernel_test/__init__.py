@@ -237,60 +237,61 @@ class KernelTests(TestCase):
 
         return reply
 
-    def test_history_tail(self):
+    def test_history(self):
         if not self.code_execute_result:
             raise SkipTest
 
-        code = set(s['code'] for s in self.code_execute_result)
-        n = len(code)
+        codes = [s['code'] for s in self.code_execute_result]
+        results = [s['result'] for s in self.code_execute_result]
+        n = len(codes)
 
-        reply = self.history_helper(code, output=False, raw=True,
-                                    hist_access_type="tail", n=n)
-        self.assertEqual(len(reply['content']['history']), n)
-        self.assertEqual(len(code & set(h[2] for h in reply['content']['history'])), n)
+        session = start = None
 
-    def test_history_output(self):
-        if not self.code_execute_result:
-            raise SkipTest
+        with self.subTest(hist_access_type="tail"):
+            reply = self.history_helper(codes, output=False, raw=True,
+                                        hist_access_type="tail", n=n)
+            self.assertEqual(len(reply['content']['history']), n)
+            self.assertEqual(len(reply['content']['history'][0]), 3)
+            self.assertEqual(codes, [h[2] for h in reply['content']['history']])
 
-        code = set(s['code'] for s in self.code_execute_result)
-        result = set(s['result'] for s in self.code_execute_result)
-        n = len(code)
+            session, start = reply['content']['history'][0][0:2]
+            with self.subTest(output=True):
+                reply = self.history_helper(codes, output=True, raw=True,
+                                            hist_access_type="tail", n=n)
+                self.assertEqual(len(reply['content']['history'][0][2]), 2)
 
-        reply = self.history_helper(code, output=True, raw=True,
-                                    hist_access_type="tail", n=n)
-        print(reply)
-        self.assertEqual(len(reply['content']['history']), n)
-        self.assertEqual(len(code & set(h[2][0] for h in reply['content']['history'])), n)
-        self.assertEqual(len(result & set(h[2][1] for h in reply['content']['history'])), n)
+        with self.subTest(hist_access_type="range"):
+            if session is None:
+                raise SkipTest
+            reply = self.history_helper(codes, output=False, raw=True,
+                                        hist_access_type="range",
+                                        session=session, start=start,
+                                        stop=start+1)
+            self.assertEqual(len(reply['content']['history']), 1)
+            self.assertEqual(reply['content']['history'][0][0], session)
+            self.assertEqual(reply['content']['history'][0][1], start)
 
-    def test_history_search(self):
-        if not self.code_execute_result:
-            raise SkipTest
-        if not self.code_history_pattern:
-            raise SkipTest
+        with self.subTest(hist_access_type="search"):
+            if not self.code_history_pattern:
+                raise SkipTest
 
-        code = set(s['code'] for s in self.code_execute_result)
-        reply = self.history_helper(code, output=False, raw=True,
-                                    hist_access_type="search",
-                                    pattern=self.code_history_pattern)
-
-        self.assertGreaterEqual(len(reply['content']['history']), 1)
-        self.assertGreaterEqual(len(code & set(h[2] for h in reply['content']['history'])), 1)
-
-    def test_history_unique(self):
-        if not self.code_execute_result:
-            raise SkipTest
-        if not self.code_history_pattern:
-            raise SkipTest
-
-        code = list(s['code'] for s in self.code_execute_result)
-        reply = self.history_helper(code+code, output=False, raw=True,
-                                    hist_access_type="search",
-                                    pattern=self.code_history_pattern,
-                                    unique=True)
-
-        self.assertEqual(len(reply['content']['history']), 1)
+            with self.subTest(subsearch="normal"):
+                reply = self.history_helper(codes, output=False, raw=True,
+                                            hist_access_type="search",
+                                            pattern=self.code_history_pattern)
+                self.assertGreaterEqual(len(reply['content']['history']), 1)
+            with self.subTest(subsearch="unique"):
+                reply = self.history_helper(codes, output=False, raw=True,
+                                            hist_access_type="search",
+                                            pattern=self.code_history_pattern,
+                                            unique=True)
+                self.assertEqual(len(reply['content']['history']), 1)
+            with self.subTest(subsearch="n"):
+                reply = self.history_helper(codes, output=False, raw=True,
+                                            hist_access_type="search",
+                                            pattern=self.code_history_pattern,
+                                            n=3)
+                self.assertEqual(len(reply['content']['history']), 3)
 
     code_inspect_sample = ""
 
