@@ -229,14 +229,6 @@ class KernelTests(TestCase):
                 self.assertEqual(output_msgs[0]['msg_type'], 'display_data')
                 self.assertIn(sample['mime'], output_msgs[0]['content']['data'])
 
-    def test_silent(self):
-        self.flush_channels()
-
-        reply, output_msgs = self.execute_helper("", silent=True)
-        self.assertEqual(reply['content']['status'], 'ok')
-        self.assertEqual(len(output_msgs), 0)
-        # test that execution_count has not been incremented?
-
     # this should match one of the values in code_execute_result
     code_history_pattern = ""
     supported_history_operations = ()
