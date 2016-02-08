@@ -39,6 +39,7 @@ class IRkernelTests(jkt.KernelTests):
     ]
 
     code_history_pattern = "1?2*"
+    supported_history_operations = ("tail", "range", "search")
 
     code_inspect_sample = "zip"
 

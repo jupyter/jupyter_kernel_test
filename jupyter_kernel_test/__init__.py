@@ -224,6 +224,7 @@ class KernelTests(TestCase):
 
     # this should match one of the values in code_execute_result
     code_history_pattern = ""
+    supported_history_operations = ()
 
     def history_helper(self, execute_first, timeout=TIMEOUT, **histargs):
         self.flush_channels()
@@ -250,6 +251,8 @@ class KernelTests(TestCase):
         session = start = None
 
         with self.subTest(hist_access_type="tail"):
+            if 'tail' not in self.supported_history_operations:
+                raise SkipTest
             reply = self.history_helper(codes, output=False, raw=True,
                                         hist_access_type="tail", n=n)
             self.assertEqual(len(reply['content']['history']), n)
@@ -263,6 +266,8 @@ class KernelTests(TestCase):
                 self.assertEqual(len(reply['content']['history'][0][2]), 2)
 
         with self.subTest(hist_access_type="range"):
+            if 'range' not in self.supported_history_operations:
+                raise SkipTest
             if session is None:
                 raise SkipTest
             reply = self.history_helper(codes, output=False, raw=True,
@@ -275,6 +280,8 @@ class KernelTests(TestCase):
 
         with self.subTest(hist_access_type="search"):
             if not self.code_history_pattern:
+                raise SkipTest
+            if 'search' not in self.supported_history_operations:
                 raise SkipTest
 
             with self.subTest(subsearch="normal"):

@@ -63,9 +63,13 @@ Use it like this:
             {'code': "display(Math('\\frac{1}{2}'))", 'mime': "text/latex"}
         ]
 
-        # A sample history pattern (using ? and * globbing), which should
-        # match at least one 'code' sample in code_execute_result
+        # Which types of history access should be tested (omit this attribute
+        # or use an empty list to test nothing). For history searching,
+        # code_history_pattern should be a glob-type match for one of the
+        # code strings in code_execute_result
+        supported_history_operations = ("tail", "range", "search")
         code_history_pattern = "1?2*"
+
 
         # A statement/object to which the kernel should respond with some
         # information when inspected
