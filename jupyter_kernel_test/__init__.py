@@ -37,6 +37,7 @@ class KernelTests(TestCase):
                     validate_message(msg)
 
     language_name = ""
+    file_extension = ""
 
     def test_kernel_info(self):
         self.flush_channels()
@@ -48,9 +49,17 @@ class KernelTests(TestCase):
         if self.language_name:
             self.assertEqual(reply['content']['language_info']['name'],
                              self.language_name)
+        if self.file_extension:
+            self.assertEqual(reply['content']['language_info']['file_extension'],
+                             self.file_extension)
+            self.assertTrue(reply['content']['language_info']['file_extension'].startswith("."))
 
-    def execute_helper(self, code, timeout=TIMEOUT):
-        msg_id = self.kc.execute(code=code)
+
+
+    def execute_helper(self, code, timeout=TIMEOUT,
+                       silent=False, store_history=True):
+        msg_id = self.kc.execute(code=code, silent=silent,
+                                 store_history=store_history)
 
         reply = self.kc.get_shell_msg(timeout=timeout)
         validate_message(reply, 'execute_reply', msg_id)
@@ -89,6 +98,21 @@ class KernelTests(TestCase):
         self.assertEqual(output_msgs[0]['content']['name'], 'stdout')
         self.assertIn('hello, world', output_msgs[0]['content']['text'])
 
+    code_stderr = ""
+
+    def test_execute_stderr(self):
+        if not self.code_stderr:
+            raise SkipTest
+
+        self.flush_channels()
+        reply, output_msgs = self.execute_helper(code=self.code_stderr)
+
+        self.assertEqual(reply['content']['status'], 'ok')
+
+        self.assertGreaterEqual(len(output_msgs), 1)
+        self.assertEqual(output_msgs[0]['msg_type'], 'stream')
+        self.assertEqual(output_msgs[0]['content']['name'], 'stderr')
+
     completion_samples = []
 
     def test_completion(self):
@@ -96,12 +120,13 @@ class KernelTests(TestCase):
             raise SkipTest
 
         for sample in self.completion_samples:
-            msg_id = self.kc.complete(sample['text'])
-            reply = self.kc.get_shell_msg()
-            validate_message(reply, 'complete_reply', msg_id)
-            if 'matches' in sample:
-                self.assertEqual(set(reply['content']['matches']),
-                                 set(sample['matches']))
+            with self.subTest(text=sample['text']):
+                msg_id = self.kc.complete(sample['text'])
+                reply = self.kc.get_shell_msg()
+                validate_message(reply, 'complete_reply', msg_id)
+                if 'matches' in sample:
+                    self.assertEqual(set(reply['content']['matches']),
+                                     set(sample['matches']))
 
     complete_code_samples = []
     incomplete_code_samples = []
@@ -124,14 +149,17 @@ class KernelTests(TestCase):
 
         self.flush_channels()
 
-        for sample in self.complete_code_samples:
-            self.check_is_complete(sample, 'complete')
+        with self.subTest(status="complete"):
+            for sample in self.complete_code_samples:
+                self.check_is_complete(sample, 'complete')
 
-        for sample in self.incomplete_code_samples:
-            self.check_is_complete(sample, 'incomplete')
+        with self.subTest(status="incomplete"):
+            for sample in self.incomplete_code_samples:
+                self.check_is_complete(sample, 'incomplete')
 
-        for sample in self.invalid_code_samples:
-            self.check_is_complete(sample, 'invalid')
+        with self.subTest(status="invalid"):
+            for sample in self.invalid_code_samples:
+                self.check_is_complete(sample, 'invalid')
 
     code_page_something = ""
 
@@ -161,6 +189,8 @@ class KernelTests(TestCase):
 
         reply, output_msgs = self.execute_helper(self.code_generate_error)
         self.assertEqual(reply['content']['status'], 'error')
+        self.assertEqual(len(output_msgs), 1)
+        self.assertEqual(output_msgs[0]['msg_type'], 'error')
 
     code_execute_result = []
 
@@ -169,17 +199,18 @@ class KernelTests(TestCase):
             raise SkipTest
 
         for sample in self.code_execute_result:
-            self.flush_channels()
+            with self.subTest(code=sample['code']):
+                self.flush_channels()
 
-            reply, output_msgs = self.execute_helper(sample['code'])
+                reply, output_msgs = self.execute_helper(sample['code'])
 
-            self.assertEqual(reply['content']['status'], 'ok')
+                self.assertEqual(reply['content']['status'], 'ok')
 
-            self.assertGreaterEqual(len(output_msgs), 1)
-            self.assertEqual(output_msgs[0]['msg_type'], 'execute_result')
-            self.assertIn('text/plain', output_msgs[0]['content']['data'])
-            self.assertEqual(output_msgs[0]['content']['data']['text/plain'],
-                             sample['result'])
+                self.assertGreaterEqual(len(output_msgs), 1)
+                self.assertEqual(output_msgs[0]['msg_type'], 'execute_result')
+                self.assertIn('text/plain', output_msgs[0]['content']['data'])
+                self.assertEqual(output_msgs[0]['content']['data']['text/plain'],
+                                 sample['result'])
 
     code_display_data = []
 
@@ -188,11 +219,121 @@ class KernelTests(TestCase):
             raise SkipTest
 
         for sample in self.code_display_data:
-            self.flush_channels()
-            reply, output_msgs = self.execute_helper(sample['code'])
+            with self.subTest(code=sample['code']):
+                self.flush_channels()
+                reply, output_msgs = self.execute_helper(sample['code'])
 
-            self.assertEqual(reply['content']['status'], 'ok')
+                self.assertEqual(reply['content']['status'], 'ok')
 
-            self.assertGreaterEqual(len(output_msgs), 1)
-            self.assertEqual(output_msgs[0]['msg_type'], 'display_data')
-            self.assertIn(sample['mime'], output_msgs[0]['content']['data'])
+                self.assertGreaterEqual(len(output_msgs), 1)
+                self.assertEqual(output_msgs[0]['msg_type'], 'display_data')
+                self.assertIn(sample['mime'], output_msgs[0]['content']['data'])
+
+    # this should match one of the values in code_execute_result
+    code_history_pattern = ""
+    supported_history_operations = ()
+
+    def history_helper(self, execute_first, timeout=TIMEOUT, **histargs):
+        self.flush_channels()
+
+        for code in execute_first:
+            reply, output_msgs = self.execute_helper(code)
+
+        self.flush_channels()
+        msg_id = self.kc.history(**histargs)
+
+        reply = self.kc.get_shell_msg(timeout=timeout)
+        validate_message(reply, 'history_reply', msg_id)
+
+        return reply
+
+    def test_history(self):
+        if not self.code_execute_result:
+            raise SkipTest
+
+        codes = [s['code'] for s in self.code_execute_result]
+        results = [s['result'] for s in self.code_execute_result]
+        n = len(codes)
+
+        session = start = None
+
+        with self.subTest(hist_access_type="tail"):
+            if 'tail' not in self.supported_history_operations:
+                raise SkipTest
+            reply = self.history_helper(codes, output=False, raw=True,
+                                        hist_access_type="tail", n=n)
+            self.assertEqual(len(reply['content']['history']), n)
+            self.assertEqual(len(reply['content']['history'][0]), 3)
+            self.assertEqual(codes, [h[2] for h in reply['content']['history']])
+
+            session, start = reply['content']['history'][0][0:2]
+            with self.subTest(output=True):
+                reply = self.history_helper(codes, output=True, raw=True,
+                                            hist_access_type="tail", n=n)
+                self.assertEqual(len(reply['content']['history'][0][2]), 2)
+
+        with self.subTest(hist_access_type="range"):
+            if 'range' not in self.supported_history_operations:
+                raise SkipTest
+            if session is None:
+                raise SkipTest
+            reply = self.history_helper(codes, output=False, raw=True,
+                                        hist_access_type="range",
+                                        session=session, start=start,
+                                        stop=start+1)
+            self.assertEqual(len(reply['content']['history']), 1)
+            self.assertEqual(reply['content']['history'][0][0], session)
+            self.assertEqual(reply['content']['history'][0][1], start)
+
+        with self.subTest(hist_access_type="search"):
+            if not self.code_history_pattern:
+                raise SkipTest
+            if 'search' not in self.supported_history_operations:
+                raise SkipTest
+
+            with self.subTest(subsearch="normal"):
+                reply = self.history_helper(codes, output=False, raw=True,
+                                            hist_access_type="search",
+                                            pattern=self.code_history_pattern)
+                self.assertGreaterEqual(len(reply['content']['history']), 1)
+            with self.subTest(subsearch="unique"):
+                reply = self.history_helper(codes, output=False, raw=True,
+                                            hist_access_type="search",
+                                            pattern=self.code_history_pattern,
+                                            unique=True)
+                self.assertEqual(len(reply['content']['history']), 1)
+            with self.subTest(subsearch="n"):
+                reply = self.history_helper(codes, output=False, raw=True,
+                                            hist_access_type="search",
+                                            pattern=self.code_history_pattern,
+                                            n=3)
+                self.assertEqual(len(reply['content']['history']), 3)
+
+    code_inspect_sample = ""
+
+    def test_inspect(self):
+        if not self.code_inspect_sample:
+            raise SkipTest
+
+        self.flush_channels()
+        msg_id = self.kc.inspect(self.code_inspect_sample)
+        reply = self.kc.get_shell_msg(timeout=TIMEOUT)
+        validate_message(reply, 'inspect_reply', msg_id)
+
+        self.assertEqual(reply['content']['status'], 'ok')
+        self.assertTrue(reply['content']['found'])
+        self.assertGreaterEqual(len(reply['content']['data']), 1)
+
+    code_clear_output = ""
+
+    def test_clear_output(self):
+        if not self.code_clear_output:
+            raise SkipTest
+
+        self.flush_channels()
+        reply, output_msgs = self.execute_helper(code=self.code_clear_output)
+
+        self.assertEqual(reply['content']['status'], 'ok')
+
+        self.assertGreaterEqual(len(output_msgs), 1)
+        self.assertEqual(output_msgs[0]['msg_type'], 'clear_output')

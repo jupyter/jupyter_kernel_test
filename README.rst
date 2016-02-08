@@ -20,10 +20,17 @@ Use it like this:
         # language_info.name in a kernel_info_reply should match this
         language_name = "dg"
 
+        # language_info.file_extension, should match kernel_info_reply
+        # (and start with a dot)
+        file_extension = ".py"
+
         # Optional --------------------------------------
 
         # Code in the kernel's language to write "hello, world" to stdout
         code_hello_world = "print 'hello, world'"
+
+        # code which should print something to stderr
+        code_stderr = "import sys; print('test', file=sys.stderr)"
 
         # Tab completions: in each dictionary, text is the input, which it will
         # try to complete from the end of. matches is the collection of results
@@ -49,7 +56,7 @@ Use it like this:
         # Samples of code which generate a result value (ie, some text
         # displayed as Out[n])
         code_execute_result = [
-            {'code': "1+1", 'result': "2"}
+            {'code': "1+2+3", 'result': "6"}
         ]
 
         # Samples of code which should generate a rich display output, and
@@ -58,6 +65,21 @@ Use it like this:
             {'code': "display(HTML('<b>test</b>'))", 'mime': "text/html"},
             {'code': "display(Math('\\frac{1}{2}'))", 'mime': "text/latex"}
         ]
+
+        # Which types of history access should be tested (omit this attribute
+        # or use an empty list to test nothing). For history searching,
+        # code_history_pattern should be a glob-type match for one of the
+        # code strings in code_execute_result
+        supported_history_operations = ("tail", "range", "search")
+        code_history_pattern = "1?2*"
+
+        # A statement/object to which the kernel should respond with some
+        # information when inspected
+        code_inspect_sample = "zip"
+
+        # Code which should cause the kernel to send a clear_output request
+        # to the frontend
+        code_clear_output = "clear_output()"
 
     if __name__ == '__main__':
         unittest.main()
