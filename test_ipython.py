@@ -12,6 +12,8 @@ class IRkernelTests(jkt.KernelTests):
 
     code_hello_world = "print('hello, world')"
 
+    code_stderr = "import sys; print('test', file=sys.stderr)"
+
     completion_samples = [
         {
             'text': 'zi',

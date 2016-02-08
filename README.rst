@@ -29,6 +29,9 @@ Use it like this:
         # Code in the kernel's language to write "hello, world" to stdout
         code_hello_world = "print 'hello, world'"
 
+        # code which should print something to stderr
+        code_stderr = "import sys; print('test', file=sys.stderr)"
+
         # Tab completions: in each dictionary, text is the input, which it will
         # try to complete from the end of. matches is the collection of results
         # it should expect.

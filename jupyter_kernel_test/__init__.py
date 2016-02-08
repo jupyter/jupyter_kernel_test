@@ -98,6 +98,21 @@ class KernelTests(TestCase):
         self.assertEqual(output_msgs[0]['content']['name'], 'stdout')
         self.assertIn('hello, world', output_msgs[0]['content']['text'])
 
+    code_stderr = ""
+
+    def test_execute_stderr(self):
+        if not self.code_stderr:
+            raise SkipTest
+
+        self.flush_channels()
+        reply, output_msgs = self.execute_helper(code=self.code_stderr)
+
+        self.assertEqual(reply['content']['status'], 'ok')
+
+        self.assertGreaterEqual(len(output_msgs), 1)
+        self.assertEqual(output_msgs[0]['msg_type'], 'stream')
+        self.assertEqual(output_msgs[0]['content']['name'], 'stderr')
+
     completion_samples = []
 
     def test_completion(self):
