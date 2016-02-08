@@ -315,17 +315,14 @@ class KernelTests(TestCase):
         if not self.code_inspect_sample:
             raise SkipTest
 
-        for i in (0, 1):
-            with self.subTest(detail_level=i):
-                self.flush_channels()
-                msg_id = self.kc.inspect(self.code_inspect_sample,
-                                         detail_level=i)
-                reply = self.kc.get_shell_msg(timeout=TIMEOUT)
-                validate_message(reply, 'inspect_reply', msg_id)
+        self.flush_channels()
+        msg_id = self.kc.inspect(self.code_inspect_sample)
+        reply = self.kc.get_shell_msg(timeout=TIMEOUT)
+        validate_message(reply, 'inspect_reply', msg_id)
 
-                self.assertEqual(reply['content']['status'], 'ok')
-                self.assertTrue(reply['content']['found'])
-                self.assertGreaterEqual(len(reply['content']['data']), 1)
+        self.assertEqual(reply['content']['status'], 'ok')
+        self.assertTrue(reply['content']['found'])
+        self.assertGreaterEqual(len(reply['content']['data']), 1)
 
     code_clear_output = ""
 
