@@ -334,3 +334,17 @@ class KernelTests(TestCase):
                 self.assertEqual(reply['content']['status'], 'ok')
                 self.assertTrue(reply['content']['found'])
                 self.assertGreaterEqual(len(reply['content']['data']), 1)
+
+    code_clear_output = ""
+
+    def test_clear_output(self):
+        if not self.code_clear_output:
+            raise SkipTest
+
+        self.flush_channels()
+        reply, output_msgs = self.execute_helper(code=self.code_clear_output)
+
+        self.assertEqual(reply['content']['status'], 'ok')
+
+        self.assertGreaterEqual(len(output_msgs), 1)
+        self.assertEqual(output_msgs[0]['msg_type'], 'clear_output')

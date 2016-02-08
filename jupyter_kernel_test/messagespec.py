@@ -133,6 +133,9 @@ class ExecuteResult(MimeBundle):
 class HistoryReply(Reference):
     history = List(List())
 
+class ClearOutput(Reference):
+    wait = Bool()
+
 
 """
 Specifications of `content` part of the reply messages.
@@ -151,6 +154,7 @@ references = {
     'stream' : Stream(),
     'display_data' : DisplayData(),
     'header' : RHeader(),
+    'clear_output' : ClearOutput(),
 }
 
 #validation specific to this version of the message specification

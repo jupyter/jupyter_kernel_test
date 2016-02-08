@@ -73,10 +73,13 @@ Use it like this:
         supported_history_operations = ("tail", "range", "search")
         code_history_pattern = "1?2*"
 
-
         # A statement/object to which the kernel should respond with some
         # information when inspected
         code_inspect_sample = "zip"
+
+        # Code which should cause the kernel to send a clear_output request
+        # to the frontend
+        code_clear_output = "clear_output()"
 
     if __name__ == '__main__':
         unittest.main()

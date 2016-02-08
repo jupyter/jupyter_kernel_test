@@ -45,5 +45,7 @@ class IRkernelTests(jkt.KernelTests):
 
     code_inspect_sample = "zip"
 
+    code_clear_output = "from IPython.display import clear_output; clear_output()"
+
 if __name__ == '__main__':
     unittest.main()
