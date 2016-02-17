@@ -2,7 +2,7 @@
 jupyter_kernel_test
 ===================
 
-``jupyter_kernel_test`` is a tool for testing Jupyter_ kernels. It tests kernels for successful code execution and conformance with the Jupyter Messaging Protocol_ (currently 5.0).
+``jupyter_kernel_test`` is a tool for testing Jupyter_ kernels. It tests kernels for successful code execution and conformance with the `Jupyter Messaging Protocol`_ (currently 5.0).
 
 -------
 Install
@@ -69,15 +69,15 @@ Coverage
 
 The following aspects of the messaging protocol are not explicitly tested:
 
- - Widget comms: ``comm_open``, ``comm_msg``, ``comm_close``
- - stdin: ``input_request``, ``input_reply``
- - display_data metadata
- - Shutdown/restart: ``shutdown_request``, ``shutdown_reply``
- - History: not all option combinations covered
- - Inspection: multiple levels
- - Execution payloads (deprecated but still used): payloads ``load``, ``edit``, ``ask_exit``
- - User expressions
- - Execution: combinations of ``silent``, ``store_history`` and ``stop_on_error``
+- Widget comms: ``comm_open``, ``comm_msg``, ``comm_close``
+- stdin: ``input_request``, ``input_reply``
+- display_data metadata
+- Shutdown/restart: ``shutdown_request``, ``shutdown_reply``
+- History: not all option combinations covered
+- Inspection: multiple levels
+- Execution payloads (deprecated but still used): payloads ``load``, ``edit``, ``ask_exit``
+- User expressions
+- Execution: combinations of ``silent``, ``store_history`` and ``stop_on_error``
 
 .. _Jupyter: http://jupyter.org
-.. _Protocol: http://jupyter-client.readthedocs.org/en/latest/messaging.html
+.. _Jupyter Messaging Protocol: http://jupyter-client.readthedocs.org/en/latest/messaging.html
