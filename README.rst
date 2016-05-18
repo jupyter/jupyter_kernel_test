@@ -60,6 +60,15 @@ Example
             {'code': 'show_image()', 'mime': 'image/png'}
         ]
 
+        # You can also write extra tests. We recommend putting your kernel name
+        # in the method name, to avoid clashing with any tests that
+        # jupyter_kernel_test adds in the future.
+        def test_mykernel_stderr(self):
+            reply, output_msgs = self.execute_helper(code='print_err "oops"')
+            self.assertEqual(output_msgs[0]['msg_type'], 'stream')
+            self.assertEqual(output_msgs[0]['content']['name'], 'stderr')
+            self.assertEqual(output_msgs[0]['content']['text']. 'oops\n')
+
     if __name__ == '__main__':
         unittest.main()
 
