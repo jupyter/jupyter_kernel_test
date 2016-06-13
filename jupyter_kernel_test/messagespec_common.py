@@ -15,7 +15,7 @@ from distutils.version import LooseVersion as V
 import nose.tools as nt
 
 from traitlets import (
-    HasTraits, TraitError, Unicode, Dict
+    HasTraits, TraitError, Unicode, Dict, observe
 )
 
 string_types = (str, type(u''))
@@ -67,7 +67,9 @@ mime_pat = re.compile(r'^[\w\-\+\.]+/[\w\-\+\.]+$')
 class MimeBundle(Reference):
     metadata = Dict()
     data = Dict()
-    def _data_changed(self, name, old, new):
-        for k,v in new.items():
+
+    @observe('data')
+    def _data_changed(self, change):
+        for k,v in change['new'].items():
             assert mime_pat.match(k)
             nt.assert_is_instance(v, string_types)
