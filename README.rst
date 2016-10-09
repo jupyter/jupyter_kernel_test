@@ -89,4 +89,4 @@ The following aspects of the messaging protocol are not explicitly tested:
 - Execution: combinations of ``silent``, ``store_history`` and ``stop_on_error``
 
 .. _Jupyter: http://jupyter.org
-.. _Jupyter Messaging Protocol: http://jupyter-client.readthedocs.org/en/latest/messaging.html
+.. _Jupyter Messaging Protocol: https://jupyter-client.readthedocs.io/en/latest/messaging.html
