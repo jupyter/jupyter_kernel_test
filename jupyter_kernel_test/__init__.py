@@ -94,9 +94,12 @@ class KernelTests(TestCase):
         self.assertEqual(reply['content']['status'], 'ok')
 
         self.assertGreaterEqual(len(output_msgs), 1)
-        self.assertEqual(output_msgs[0]['msg_type'], 'stream')
-        self.assertEqual(output_msgs[0]['content']['name'], 'stdout')
-        self.assertIn('hello, world', output_msgs[0]['content']['text'])
+        for msg in output_msgs:
+            if (msg['msg_type'] == 'stream') and (msg['content']['name'] == 'stdout'):
+                self.assertIn('hello, world', msg['content']['text'])
+                break
+        else:
+            self.assertTrue(False, "Expected one output message of type 'stream' and 'content.name'='stdout'")
 
     code_stderr = ""
 
@@ -110,8 +113,12 @@ class KernelTests(TestCase):
         self.assertEqual(reply['content']['status'], 'ok')
 
         self.assertGreaterEqual(len(output_msgs), 1)
-        self.assertEqual(output_msgs[0]['msg_type'], 'stream')
-        self.assertEqual(output_msgs[0]['content']['name'], 'stderr')
+
+        for msg in output_msgs:
+            if (msg['msg_type'] == 'stream') and (msg['content']['name'] == 'stderr'):
+                break
+        else:
+            self.assertTrue(False, "Expected one output message of type 'stream' and 'content.name'='stderr'")
 
     completion_samples = []
 
