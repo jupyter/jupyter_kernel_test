@@ -61,7 +61,7 @@ class KernelTests(TestCase):
                        stop_on_error=True):
         msg_id = self.kc.execute(code=code, silent=silent,
                                  store_history=store_history,
-                                 stop_on_error=True)
+                                 stop_on_error=stop_on_error)
 
         reply = self.kc.get_shell_msg(timeout=timeout)
         validate_message(reply, 'execute_reply', msg_id)
