@@ -57,9 +57,11 @@ class KernelTests(TestCase):
 
 
     def execute_helper(self, code, timeout=TIMEOUT,
-                       silent=False, store_history=True):
+                       silent=False, store_history=True,
+                       stop_on_error=True):
         msg_id = self.kc.execute(code=code, silent=silent,
-                                 store_history=store_history)
+                                 store_history=store_history,
+                                 stop_on_error=stop_on_error)
 
         reply = self.kc.get_shell_msg(timeout=timeout)
         validate_message(reply, 'execute_reply', msg_id)
