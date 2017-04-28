@@ -2,10 +2,7 @@
 """
 
 from unittest import TestCase, SkipTest
-try:                  # Python 3
-    from queue import Empty
-except ImportError:   # Python 2
-    from Queue import Empty
+from queue import Empty
 
 from jupyter_client.manager import start_new_kernel
 from .messagespec import validate_message, MimeBundle
