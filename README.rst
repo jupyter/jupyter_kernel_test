@@ -2,7 +2,9 @@
 jupyter_kernel_test
 ===================
 
-``jupyter_kernel_test`` is a tool for testing Jupyter_ kernels. It tests kernels for successful code execution and conformance with the `Jupyter Messaging Protocol`_ (currently 5.0).
+``jupyter_kernel_test`` is a tool for testing Jupyter_ kernels. It tests kernels
+for successful code execution and conformance with the `Jupyter Messaging Protocol`_
+(currently 5.0).
 
 -------
 Install
@@ -16,11 +18,18 @@ Install it with pip (python3.4 or greater required)::
 Usage
 -----
 
-To use it, you need to write a (python) ``unittest`` file containing code samples in the relevant language which test various parts of the messaging protocol. A short example is given below, and otherwise you can consult the ``test_ipykernel.py`` and ``test_irkernel.py`` files for complete examples.
+To use it, you need to write a (python) ``unittest`` file containing code
+samples in the relevant language which test various parts of the messaging protocol.
+A short example is given below, and you can also refer to the
+``test_ipykernel.py`` and ``test_irkernel.py`` files for complete examples.
 
-Some parts of the messaging protocol are relevant only to the browser-based notebook (rich display) or console interfaces (code completeness, history searching). Only parts of the spec for which you provide code samples are tested.
+Some parts of the messaging protocol are relevant only to the browser-based
+notebook (rich display) or console interfaces (code completeness,
+history searching). Only parts of the spec for which you provide code samples
+are tested.
 
-Run this file directly using python, or use ``nosetests`` or ``py.test`` to find and run it.
+Run this file directly using python, or use ``nosetests`` or ``py.test`` to find
+and run it.
 
 -------
 Example
@@ -30,6 +39,9 @@ Example
 
     import unittest
     import jupyter_kernel_test
+
+    # *Don't* do 'from jupyter_kernel_test import KernelTests'
+    # If you do, it will try to run the base class as tests, which will fail.   
 
     class MyKernelTests(jupyter_kernel_test.KernelTests):
         # Required --------------------------------------
