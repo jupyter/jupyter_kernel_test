@@ -1,3 +1,8 @@
+"""Message schemas for message spec version 5"""
+
+# Copyright (c) Jupyter Development Team.
+# Distributed under the terms of the Modified BSD License.
+
 from jsonschema import Draft4Validator, ValidationError
 import re
 
