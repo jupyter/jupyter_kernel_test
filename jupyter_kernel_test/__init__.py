@@ -5,7 +5,7 @@ from unittest import TestCase, SkipTest
 from queue import Empty
 
 from jupyter_client.manager import start_new_kernel
-from .messagespec import validate_message, MimeBundle
+from .msgspec_v5 import validate_message
 
 TIMEOUT = 15
 
@@ -181,8 +181,6 @@ class KernelTests(TestCase):
         self.assertEqual(len(payloads), 1)
         self.assertEqual(payloads[0]['source'], 'page')
         mimebundle = payloads[0]['data']
-        # Validate the mimebundle
-        MimeBundle().data = mimebundle
         self.assertIn('text/plain', mimebundle)
 
     code_generate_error = ""
