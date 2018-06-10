@@ -7,6 +7,8 @@ from unittest import TestCase, SkipTest
 
 from jupyter_kernel_mgmt.discovery import KernelFinder
 from jupyter_kernel_mgmt.client import BlockingKernelClient, ErrorInKernel
+from tornado import gen
+from tornado.ioloop import IOLoop
 from .msgspec_v5 import validate_message
 
 TIMEOUT = 15
@@ -37,8 +39,7 @@ class KernelTests(TestCase):
         cls.kc.close()
 
     def _wait_for_reply(self, future, timeout=TIMEOUT):
-        loop = self.kc.loop_client.ioloop
-        return loop.run_sync(lambda: future, timeout=timeout)
+        return IOLoop.current().run_sync(lambda: future, timeout=timeout)
 
     language_name = ""
     file_extension = ""
@@ -62,6 +63,8 @@ class KernelTests(TestCase):
                        silent=False, store_history=True,
                        stop_on_error=True):
         output_msgs = []
+        # Give the client a chance to flush messages already arrived
+        IOLoop.current().run_sync(lambda: gen.sleep(0.1))
         self.kc.loop_client.add_handler('iopub', output_msgs.append)
         try:
             fut = self.kc.execute(
