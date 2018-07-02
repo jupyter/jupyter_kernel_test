@@ -46,7 +46,7 @@ class IPyKernelTests(jkt.KernelTests):
     # these samples should respectively be unambigiously complete statements
     # (which should be executed on <enter>), incomplete statements or code
     # which should be identified as invalid
-    complete_code_samples = ['1', "print('hello, world')", "def f(x):\n  return x*2\n\n"]
+    complete_code_samples = ['1', "print('hello, world')", "def f(x):\n  return x*2\n\n\n"]
     incomplete_code_samples = ["print('''hello", "def f(x):\n  x*2"]
     invalid_code_samples = ['import = 7q']
 
