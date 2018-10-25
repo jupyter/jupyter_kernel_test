@@ -6,7 +6,7 @@
 from unittest import TestCase, SkipTest
 
 from jupyter_kernel_mgmt.discovery import KernelFinder
-from jupyter_kernel_mgmt.client import BlockingKernelClient, ErrorInKernel
+from jupyter_kernel_mgmt.client import BlockingKernelClient
 from tornado import gen
 from tornado.ioloop import IOLoop
 from .msgspec_v5 import validate_message
@@ -72,10 +72,7 @@ class KernelTests(TestCase):
                 stop_on_error=stop_on_error, interrupt_timeout=timeout,
                 reply=False,
             )
-            try:
-                reply = self._wait_for_reply(fut, timeout+5)
-            except ErrorInKernel as e:
-                reply = e.reply_msg
+            reply = self._wait_for_reply(fut, timeout+5)
         finally:
             self.kc.loop_client.add_handler('iopub', output_msgs.append)
 
