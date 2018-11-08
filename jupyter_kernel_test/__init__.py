@@ -28,6 +28,9 @@ class KernelTests(TestCase):
 
     @classmethod
     def setUpClass(cls):
+        if cls is KernelTests:
+            raise SkipTest
+
         conn_info, km = cls.launch_kernel()
         cls.kc = BlockingKernelClient(conn_info, manager=km)
         cls.kc.wait_for_ready(timeout=TIMEOUT)
