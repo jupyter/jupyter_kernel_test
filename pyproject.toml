@@ -16,7 +16,7 @@ classifiers = [
 ]
 requires-python = ">=3.4"
 requires = [
-    "jupyter_kernel_mgmt>=0.1.1",
+    "jupyter_kernel_mgmt>=0.3",
     "jupyter_protocol",
     "jsonschema"
 ]
