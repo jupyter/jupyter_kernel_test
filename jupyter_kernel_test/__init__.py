@@ -63,9 +63,11 @@ class KernelTests(TestCase):
                        silent=False, store_history=True,
                        stop_on_error=True):
         output_msgs = []
+        def on_output(msg, _channel):
+            output_msgs.append(msg)
         # Give the client a chance to flush messages already arrived
         IOLoop.current().run_sync(lambda: gen.sleep(0.1))
-        self.kc.loop_client.add_handler('iopub', output_msgs.append)
+        self.kc.loop_client.add_handler(on_output, 'iopub')
         try:
             fut = self.kc.execute(
                 code=code, silent=silent, store_history=store_history,
@@ -74,7 +76,7 @@ class KernelTests(TestCase):
             )
             reply = self._wait_for_reply(fut, timeout+5)
         finally:
-            self.kc.loop_client.add_handler('iopub', output_msgs.append)
+            self.kc.loop_client.add_handler(on_output, 'iopub')
 
         validate_message(reply, 'execute_reply')
 
