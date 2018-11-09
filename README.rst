@@ -40,9 +40,6 @@ Example
     import unittest
     import jupyter_kernel_test
 
-    # *Don't* do 'from jupyter_kernel_test import KernelTests'
-    # If you do, it will try to run the base class as tests, which will fail.   
-
     class MyKernelTests(jupyter_kernel_test.KernelTests):
         # Required --------------------------------------
 
