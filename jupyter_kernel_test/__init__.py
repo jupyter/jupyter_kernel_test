@@ -28,6 +28,8 @@ class KernelTests(TestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Skip tests if it's an instance of KernelTests
+        # See https://github.com/jupyter/jupyter_kernel_test/issues/7
         if cls is KernelTests:
             raise SkipTest
 
