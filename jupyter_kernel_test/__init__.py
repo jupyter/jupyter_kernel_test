@@ -28,6 +28,11 @@ class KernelTests(TestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Skip tests if it's an instance of KernelTests
+        # See https://github.com/jupyter/jupyter_kernel_test/issues/7
+        if cls is KernelTests:
+            raise SkipTest
+
         conn_info, km = cls.launch_kernel()
         cls.kc = BlockingKernelClient(conn_info, manager=km)
         cls.kc.wait_for_ready(timeout=TIMEOUT)
