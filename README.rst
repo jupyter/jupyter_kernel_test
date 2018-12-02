@@ -73,6 +73,7 @@ Example
         # in the method name, to avoid clashing with any tests that
         # jupyter_kernel_test adds in the future.
         def test_mykernel_stderr(self):
+            self.flush_channels()
             reply, output_msgs = self.execute_helper(code='print_err "oops"')
             self.assertEqual(output_msgs[0]['header']['msg_type'], 'stream')
             self.assertEqual(output_msgs[0]['content']['name'], 'stderr')
