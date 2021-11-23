@@ -61,9 +61,12 @@ jobs:
 
       - name: Install dependencies
         run: |
+          conda env create -f environment.yml
+          conda activate jupyter_kernel_test
           pip install -e .[test]
 
       - name: Run the tests
         run: |
+          conda activate jupyter_kernel_test
           python test_ipykernel.py
           python test_irkernel.py
