@@ -14,7 +14,7 @@ class IPyKernelTests(jkt.KernelTests):
     # this is the normally the name of the directory containing the
     # kernel.json file - you should be able to do
     # `jupyter console --kernel KERNEL_NAME`
-    kernel_name = "pyimport/kernel"
+    kernel_name = "python3"
 
     # Everything else is OPTIONAL
 

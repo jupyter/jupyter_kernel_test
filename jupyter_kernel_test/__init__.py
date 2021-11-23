@@ -7,6 +7,7 @@ from unittest import TestCase, SkipTest
 from queue import Empty
 
 from jupyter_client.manager import start_new_kernel
+from jupyter_client.utils import run_sync
 from .msgspec_v5 import validate_message
 
 TIMEOUT = 15
@@ -29,7 +30,7 @@ class KernelTests(TestCase):
         for channel in (self.kc.shell_channel, self.kc.iopub_channel):
             while True:
                 try:
-                    msg = channel.get_msg(block=True, timeout=0.1)
+                    msg = run_sync(channel.get_msg)(timeout=0.1)
                 except Empty:
                     break
                 else:
@@ -65,13 +66,13 @@ class KernelTests(TestCase):
         reply = self.kc.get_shell_msg(timeout=timeout)
         validate_message(reply, 'execute_reply', msg_id)
 
-        busy_msg = self.kc.iopub_channel.get_msg(timeout=1)
+        busy_msg = run_sync(self.kc.iopub_channel.get_msg)(timeout=1)
         validate_message(busy_msg, 'status', msg_id)
         self.assertEqual(busy_msg['content']['execution_state'], 'busy')
 
         output_msgs = []
         while True:
-            msg = self.kc.iopub_channel.get_msg(timeout=0.1)
+            msg = run_sync(self.kc.iopub_channel.get_msg)(timeout=0.1)
             validate_message(msg, msg['msg_type'], msg_id)
             if msg['msg_type'] == 'status':
                 self.assertEqual(msg['content']['execution_state'], 'idle')
