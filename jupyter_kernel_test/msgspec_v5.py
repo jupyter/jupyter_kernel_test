@@ -4,7 +4,6 @@
 # Distributed under the terms of the Modified BSD License.
 
 from jsonschema import Draft4Validator, ValidationError
-from jupyter_protocol.messages import Message
 import re
 
 protocol_version = (5, 1)
@@ -91,22 +90,21 @@ reply_msgs_using_status = {
 }
 
 def validate_message(msg, msg_type=None, parent_id=None):
-    if not isinstance(msg, Message):
-        raise ValidationError("Expected a Message instance, got {}".format(type(msg)))
+    msg_structure_validator.validate(msg)
 
-    msg_version_s = msg.header['version']
+    msg_version_s = msg['header']['version']
     m = re.match(r'(\d+)\.(\d+)', msg_version_s)
     if not m:
-        raise ValidationError("Version {} not like 'x.y'".format(msg_version_s))
+        raise ValidationError("Version {} not like 'x.y'")
     version_minor = int(m.group(2))
 
     if msg_type is not None:
-        if msg.header['msg_type'] != msg_type:
+        if msg['header']['msg_type'] != msg_type:
             raise ValidationError("Message type {!r} != {!r}".format(
-                msg.header['msg_type'], msg_type
+                msg['header']['msg_type'], msg_type
             ))
     else:
-        msg_type = msg.header['msg_type']
+        msg_type = msg['header']['msg_type']
 
     # Check for unexpected fields, unless it's a newer protocol version
     if version_minor <= protocol_version[1]:
@@ -114,18 +112,18 @@ def validate_message(msg, msg_type=None, parent_id=None):
         if unx_top:
             raise ValidationError("Unexpected keys: {}".format(unx_top))
 
-        unx_header = set(msg.header) - set(header_part['properties'])
+        unx_header = set(msg['header']) - set(header_part['properties'])
         if unx_header:
             raise ValidationError("Unexpected keys in header: {}".format(unx_header))
 
     # Check the parent id
-    if parent_id and msg.parent_header['msg_id'] != parent_id:
+    if parent_id and msg['parent_header']['msg_id'] != parent_id:
         raise ValidationError("Parent header does not match expected")
 
     if msg_type in reply_msgs_using_status:
         # Most _reply messages have common 'error' and 'abort' structures
         try:
-            status = msg.content['status']
+            status = msg['content']['status']
         except KeyError as e:
             raise ValidationError(str(e))
         if status == 'error':
@@ -140,7 +138,7 @@ def validate_message(msg, msg_type=None, parent_id=None):
     else:
         content_vdor = get_msg_content_validator(msg_type, version_minor)
 
-    content_vdor.validate(msg.content)
+    content_vdor.validate(msg['content'])
 
 
 # Shell messages ----------------------------------------------

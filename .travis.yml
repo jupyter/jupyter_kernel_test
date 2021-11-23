@@ -1,5 +1,0 @@
-language: python
-python:
-  - "3.5"
-install: pip install ipykernel jupyter_kernel_mgmt>=0.1.1 jupyter_protocol jsonschema
-script: python test_ipykernel.py
