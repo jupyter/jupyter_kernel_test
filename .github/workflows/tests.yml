@@ -4,6 +4,10 @@ on:
   push:
   pull_request:
 
+defaults:
+  run:
+    shell: bash -l {0}
+
 jobs:
   test:
     name: Test
@@ -23,15 +27,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+      - name: Cache conda
+        uses: actions/cache@v2
         with:
-          python-version: ${{ matrix.python-version }}
+          path: ~/conda_pkgs_dir
+          key:
+            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
+            hashFiles('environment.yml') }}
 
-      - name: Update pip
-        run: |
-          pip install --upgrade pip
-          pip install --upgrade wheel setuptools
+      - name: Setup conda ${{ matrix.PYTHON_VERSION }}
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          python-version: ${{ matrix.python-version }}
 
       - name: Get pip cache dir
         id: pip-cache
@@ -56,4 +64,6 @@ jobs:
           pip install -e .[test]
 
       - name: Run the tests
-        run: python test_ipykernel.py
+        run: |
+          python test_ipykernel.py
+          python test_irkernel.py
