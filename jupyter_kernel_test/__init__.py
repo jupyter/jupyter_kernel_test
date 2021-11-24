@@ -214,10 +214,18 @@ class KernelTests(TestCase):
                 self.assertEqual(reply['content']['status'], 'ok')
 
                 self.assertGreaterEqual(len(output_msgs), 1)
-                self.assertEqual(output_msgs[0]['msg_type'], 'execute_result')
-                self.assertIn('text/plain', output_msgs[0]['content']['data'])
-                self.assertEqual(output_msgs[0]['content']['data']['text/plain'],
-                                 sample['result'])
+
+                found = False
+                for msg in output_msgs:
+                    if msg['msg_type'] == 'execute_result':
+                        found = True
+                    else:
+                        continue
+                    self.assertEqual(msg['msg_type'], 'execute_result')
+                    self.assertIn('text/plain', msg['content']['data'])
+                    self.assertEqual(msg['content']['data']['text/plain'],
+                                    sample['result'])
+                assert found, 'execute_result message not found'
 
     code_display_data = []
 
