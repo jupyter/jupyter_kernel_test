@@ -221,7 +221,6 @@ class KernelTests(TestCase):
                         found = True
                     else:
                         continue
-                    self.assertEqual(msg['msg_type'], 'execute_result')
                     self.assertIn('text/plain', msg['content']['data'])
                     self.assertEqual(msg['content']['data']['text/plain'],
                                     sample['result'])
@@ -241,8 +240,15 @@ class KernelTests(TestCase):
                 self.assertEqual(reply['content']['status'], 'ok')
 
                 self.assertGreaterEqual(len(output_msgs), 1)
-                self.assertEqual(output_msgs[0]['msg_type'], 'display_data')
-                self.assertIn(sample['mime'], output_msgs[0]['content']['data'])
+                found = False
+                for msg in output_msgs:
+                    if msg['msg_type'] == 'display_data':
+                        found = True
+                    else:
+                        continue
+                    self.assertIn(sample['mime'], msg['content']['data'])
+                assert found, 'display_data message not found'
+
 
     # this should match one of the values in code_execute_result
     code_history_pattern = ""
