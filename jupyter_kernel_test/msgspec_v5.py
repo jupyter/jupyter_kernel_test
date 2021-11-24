@@ -162,7 +162,7 @@ schema_fragments['execute_reply'] = {"properties": {
         "additionalProperties": True,
     }},
     "user_expressions": {"type": "object"},
-}}
+}, "required": ["status", "execution_count"]}
 
 schema_fragments['inspect_request'] = {"properties": {
     "code": {"type": "string"},
