@@ -56,9 +56,9 @@ jobs:
           path: |
             ${{ steps.pip-cache.outputs.dir }}
             .mypy_cache
-          key: ${{ runner.os }}-python-${{ matrix.python-version }}-pip-${{ hashFiles('**/requirements*.txt') }}-git-${{ github.sha }}
+          key: ${{ runner.os }}-python-${{ matrix.python-version }}-pip-${{ hashFiles('setup.cfg') }}-git-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-python-${{ matrix.python-version }}-pip-${{ hashFiles('**/requirements*.txt') }}
+            ${{ runner.os }}-python-${{ matrix.python-version }}-pip-${{ hashFiles('setup.cfg') }}
             ${{ runner.os }}-python-${{ matrix.python-version }}-pip-
             ${{ runner.os }}-python
             ${{ runner.os }}-
