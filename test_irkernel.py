@@ -34,5 +34,10 @@ class IRKernelTests(jkt.KernelTests):
     ]
 
 
+
 if __name__ == '__main__':
+    import os
+    # zip is not available on Windows
+    if os.name == 'nt':
+        IRKernelTests.completion_samples = []
     unittest.main()
