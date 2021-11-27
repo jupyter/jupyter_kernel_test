@@ -12,7 +12,7 @@ from .msgspec_v5 import validate_message
 
 TIMEOUT = 15
 
-__version__ = '0.3'
+__version__ = '0.3.0'
 
 class KernelTests(TestCase):
     kernel_name = ""
