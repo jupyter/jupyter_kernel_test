@@ -1,2 +1,3 @@
 include *.py
 include *.md
+exclude environment.yml
