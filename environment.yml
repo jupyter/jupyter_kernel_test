@@ -1,0 +1,9 @@
+name: jupyter_kernel_test
+channels:
+  - conda-forge
+dependencies:
+  - r-recommended
+  - r-irkernel
+  - pip
+  - setuptools
+  - wheel

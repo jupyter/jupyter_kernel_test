@@ -162,7 +162,7 @@ schema_fragments['execute_reply'] = {"properties": {
         "additionalProperties": True,
     }},
     "user_expressions": {"type": "object"},
-}}
+}, "required": ["status", "execution_count"]}
 
 schema_fragments['inspect_request'] = {"properties": {
     "code": {"type": "string"},
@@ -251,11 +251,12 @@ schema_fragments["kernel_info_reply"] = {"properties": {
     "implementation_version": {"type": "string"},
     "language_info": {"type": "object"},
     "banner": {"type": "string"},
+    "debugger": {"type": "boolean"},
     "help_links": {"type": "array", "items": {"type": "object", "properties": {
         "text": {"type": "string"},
         "url": {"type": "string"}
     }}}
-}}
+}, "required": ["status", "protocol_version", "implementation", "implementation_version", "language_info", "banner"]}
 
 schema_fragments['shutdown_request'] = {"properties": {
     "restart": {"type": "boolean"},

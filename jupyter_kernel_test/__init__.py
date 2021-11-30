@@ -3,6 +3,7 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
+from time import time
 from unittest import TestCase, SkipTest
 from queue import Empty
 
@@ -63,7 +64,7 @@ class KernelTests(TestCase):
                                  store_history=store_history,
                                  stop_on_error=stop_on_error)
 
-        reply = self.kc.get_shell_msg(timeout=timeout)
+        reply = self.get_non_kernel_info_reply(timeout=timeout)
         validate_message(reply, 'execute_reply', msg_id)
 
         busy_msg = run_sync(self.kc.iopub_channel.get_msg)(timeout=1)
@@ -124,6 +125,13 @@ class KernelTests(TestCase):
 
     completion_samples = []
 
+
+    def get_non_kernel_info_reply(self, timeout=None):
+        while True:
+            reply = self.kc.get_shell_msg(timeout=timeout)
+            if reply['header']['msg_type'] != 'kernel_info_reply':
+                return reply
+
     def test_completion(self):
         if not self.completion_samples:
             raise SkipTest
@@ -131,11 +139,11 @@ class KernelTests(TestCase):
         for sample in self.completion_samples:
             with self.subTest(text=sample['text']):
                 msg_id = self.kc.complete(sample['text'])
-                reply = self.kc.get_shell_msg()
+                reply = self.get_non_kernel_info_reply()
                 validate_message(reply, 'complete_reply', msg_id)
                 if 'matches' in sample:
                     self.assertEqual(set(reply['content']['matches']),
-                                     set(sample['matches']))
+                                    set(sample['matches']))
 
     complete_code_samples = []
     incomplete_code_samples = []
@@ -143,7 +151,7 @@ class KernelTests(TestCase):
 
     def check_is_complete(self, sample, status):
         msg_id = self.kc.is_complete(sample)
-        reply = self.kc.get_shell_msg()
+        reply = self.get_non_kernel_info_reply()
         validate_message(reply, 'is_complete_reply', msg_id)
         if reply['content']['status'] != status:
             msg = "For code sample\n  {!r}\nExpected {!r}, got {!r}."
@@ -214,10 +222,17 @@ class KernelTests(TestCase):
                 self.assertEqual(reply['content']['status'], 'ok')
 
                 self.assertGreaterEqual(len(output_msgs), 1)
-                self.assertEqual(output_msgs[0]['msg_type'], 'execute_result')
-                self.assertIn('text/plain', output_msgs[0]['content']['data'])
-                self.assertEqual(output_msgs[0]['content']['data']['text/plain'],
-                                 sample['result'])
+
+                found = False
+                for msg in output_msgs:
+                    if msg['msg_type'] == 'execute_result':
+                        found = True
+                    else:
+                        continue
+                    self.assertIn('text/plain', msg['content']['data'])
+                    self.assertEqual(msg['content']['data']['text/plain'],
+                                    sample['result'])
+                assert found, 'execute_result message not found'
 
     code_display_data = []
 
@@ -233,8 +248,15 @@ class KernelTests(TestCase):
                 self.assertEqual(reply['content']['status'], 'ok')
 
                 self.assertGreaterEqual(len(output_msgs), 1)
-                self.assertEqual(output_msgs[0]['msg_type'], 'display_data')
-                self.assertIn(sample['mime'], output_msgs[0]['content']['data'])
+                found = False
+                for msg in output_msgs:
+                    if msg['msg_type'] == 'display_data':
+                        found = True
+                    else:
+                        continue
+                    self.assertIn(sample['mime'], msg['content']['data'])
+                assert found, 'display_data message not found'
+
 
     # this should match one of the values in code_execute_result
     code_history_pattern = ""
@@ -249,7 +271,7 @@ class KernelTests(TestCase):
         self.flush_channels()
         msg_id = self.kc.history(**histargs)
 
-        reply = self.kc.get_shell_msg(timeout=timeout)
+        reply = self.get_non_kernel_info_reply(timeout=timeout)
         validate_message(reply, 'history_reply', msg_id)
 
         return reply
@@ -324,7 +346,7 @@ class KernelTests(TestCase):
 
         self.flush_channels()
         msg_id = self.kc.inspect(self.code_inspect_sample)
-        reply = self.kc.get_shell_msg(timeout=TIMEOUT)
+        reply = self.get_non_kernel_info_reply(timeout=TIMEOUT)
         validate_message(reply, 'inspect_reply', msg_id)
 
         self.assertEqual(reply['content']['status'], 'ok')

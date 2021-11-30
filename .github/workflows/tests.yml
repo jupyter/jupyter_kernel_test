@@ -3,6 +3,12 @@ name: Tests
 on:
   push:
   pull_request:
+  schedule:
+    - cron: "0 0 * * *"
+
+defaults:
+  run:
+    shell: bash -l {0}
 
 jobs:
   test:
@@ -23,15 +29,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+      - name: Cache conda
+        uses: actions/cache@v2
         with:
-          python-version: ${{ matrix.python-version }}
+          path: ~/conda_pkgs_dir
+          key:
+            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
+            hashFiles('environment.yml') }}
 
-      - name: Update pip
-        run: |
-          pip install --upgrade pip
-          pip install --upgrade wheel setuptools
+      - name: Setup conda ${{ matrix.PYTHON_VERSION }}
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          environment-file: environment.yml
+          activate-environment: jupyter_kernel_test
+          python-version: ${{ matrix.python-version }}
 
       - name: Get pip cache dir
         id: pip-cache
@@ -44,9 +56,9 @@ jobs:
           path: |
             ${{ steps.pip-cache.outputs.dir }}
             .mypy_cache
-          key: ${{ runner.os }}-python-${{ matrix.python-version }}-pip-${{ hashFiles('**/requirements*.txt') }}-git-${{ github.sha }}
+          key: ${{ runner.os }}-python-${{ matrix.python-version }}-pip-${{ hashFiles('setup.cfg') }}-git-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-python-${{ matrix.python-version }}-pip-${{ hashFiles('**/requirements*.txt') }}
+            ${{ runner.os }}-python-${{ matrix.python-version }}-pip-${{ hashFiles('setup.cfg') }}
             ${{ runner.os }}-python-${{ matrix.python-version }}-pip-
             ${{ runner.os }}-python
             ${{ runner.os }}-
@@ -56,4 +68,6 @@ jobs:
           pip install -e .[test]
 
       - name: Run the tests
-        run: python test_ipykernel.py
+        run: |
+          python test_ipykernel.py
+          python test_irkernel.py

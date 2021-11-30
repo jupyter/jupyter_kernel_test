@@ -28,14 +28,16 @@ class IRKernelTests(jkt.KernelTests):
 
     code_generate_error = "raise"
 
-    code_execute_result = [
-        {'code': "1+2+3", 'result': "[1] 6"}
-    ]
-
     code_display_data = [
         {'code': "plot(iris)", 'mime': "image/png"},
+        {'code': "1+2+3", "mime": "text/plain" }
     ]
+
 
 
 if __name__ == '__main__':
+    import os
+    # zip is not available on Windows
+    if os.name == 'nt':
+        IRKernelTests.completion_samples = []
     unittest.main()
