@@ -2,6 +2,22 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.4.1
+
+([Full Changelog](https://github.com/jupyter/jupyter_kernel_test/compare/v0.4.0...87bdb591a83640ec76fe74ce11611a821653d0a6))
+
+### Maintenance and upkeep improvements
+
+- Add more robustness [#62](https://github.com/jupyter/jupyter_kernel_test/pull/62) ([@blink1073](https://github.com/blink1073))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/jupyter_kernel_test/graphs/contributors?from=2021-11-30&to=2021-12-02&type=c))
+
+[@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Ablink1073+updated%3A2021-11-30..2021-12-02&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.4.0
 
 ([Full Changelog](https://github.com/jupyter/jupyter_kernel_test/compare/0.3...687e6f83af9cecae832c4ad8f79291322def23e5))
@@ -27,8 +43,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyter/jupyter_kernel_test/graphs/contributors?from=2017-04-28&to=2021-11-30&type=c))
 
 [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Ablink1073+updated%3A2017-04-28..2021-11-30&type=Issues) | [@kylebarron](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Akylebarron+updated%3A2017-04-28..2021-11-30&type=Issues) | [@martinRenou](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3AmartinRenou+updated%3A2017-04-28..2021-11-30&type=Issues) | [@SylvainCorlay](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3ASylvainCorlay+updated%3A2017-04-28..2021-11-30&type=Issues) | [@takluyver](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Atakluyver+updated%3A2017-04-28..2021-11-30&type=Issues) | [@tgb417](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Atgb417+updated%3A2017-04-28..2021-11-30&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.3
 
