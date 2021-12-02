@@ -44,7 +44,7 @@ msg_schema = {
     "type": "object",
     "properties": {
         "header": header_part,
-        "parent_header": header_part,
+        "parent_header": {"type": "object"},
         "metadata": {"type": "object"},
         "content": {"type": "object"},  # Checked separately
         "buffers": {"type": "array"}
@@ -117,7 +117,7 @@ def validate_message(msg, msg_type=None, parent_id=None):
             raise ValidationError("Unexpected keys in header: {}".format(unx_header))
 
     # Check the parent id
-    if parent_id and msg['parent_header']['msg_id'] != parent_id:
+    if 'reply' in msg_type and parent_id and msg['parent_header']['msg_id'] != parent_id:
         raise ValidationError("Parent header does not match expected")
 
     if msg_type in reply_msgs_using_status:
