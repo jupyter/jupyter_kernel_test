@@ -361,8 +361,13 @@ class KernelTests(TestCase):
 
         self.flush_channels()
         reply, output_msgs = self.execute_helper(code=self.code_clear_output)
-
         self.assertEqual(reply['content']['status'], 'ok')
-
         self.assertGreaterEqual(len(output_msgs), 1)
-        self.assertEqual(output_msgs[0]['msg_type'], 'clear_output')
+
+        found = False
+        for msg in output_msgs:
+            if msg['msg_type'] == 'clear_output':
+                found = True
+            else:
+                continue
+        assert found, 'clear_output message not found'
