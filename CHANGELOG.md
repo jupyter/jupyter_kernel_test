@@ -8,7 +8,7 @@
 
 ### Bugs fixed
 
-- Add minimum jupyter_client version [#64](https://github.com/jupyter/jupyter_kernel_test/pull/64) ([@blink1073](https://github.com/blink1073))
+- Add minimum `jupyter_client` version [#64](https://github.com/jupyter/jupyter_kernel_test/pull/64) ([@blink1073](https://github.com/blink1073))
 
 ### Contributors to this release
 
