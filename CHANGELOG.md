@@ -2,6 +2,22 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.4.2
+
+([Full Changelog](https://github.com/jupyter/jupyter_kernel_test/compare/v0.4.1...fcc3d1e7eaf262a1dd5b3bce7b5e160bd1d69265))
+
+### Bugs fixed
+
+- Add minimum `jupyter_client` version [#64](https://github.com/jupyter/jupyter_kernel_test/pull/64) ([@blink1073](https://github.com/blink1073))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/jupyter_kernel_test/graphs/contributors?from=2021-12-02&to=2021-12-05&type=c))
+
+[@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Ablink1073+updated%3A2021-12-02..2021-12-05&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.4.1
 
 ([Full Changelog](https://github.com/jupyter/jupyter_kernel_test/compare/v0.4.0...87bdb591a83640ec76fe74ce11611a821653d0a6))
@@ -15,8 +31,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyter/jupyter_kernel_test/graphs/contributors?from=2021-11-30&to=2021-12-02&type=c))
 
 [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Ablink1073+updated%3A2021-11-30..2021-12-02&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.4.0
 
