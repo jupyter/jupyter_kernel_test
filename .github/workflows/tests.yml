@@ -44,4 +44,4 @@ jobs:
         run: pip install -e .[test]
 
       - name: Run the tests
-        run: python -m unitest.py -v
+        run: python -m unittest -v
