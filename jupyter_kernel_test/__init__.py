@@ -16,7 +16,7 @@ TIMEOUT = 15
 __version__ = '0.4.2'
 
 class KernelTests(TestCase):
-    kernel_name = ""
+    kernel_name = "python3"
 
     @classmethod
     def setUpClass(cls):
