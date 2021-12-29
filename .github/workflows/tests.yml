@@ -40,16 +40,14 @@ jobs:
           activate-environment: jupyter_kernel_test
           python-version: ${{ matrix.python-version }}
 
-      - name: Set up Julia
-        if: ${{ !startsWith(runner.os, 'Windows') }}
-        run: bash setup_julia.sh
-
       - name: Install dependencies
         run: |
           pip install -e .[test]
 
-      - name: List Kernels
+      - name: Set up Julia
+        if: ${{ !startsWith(runner.os, 'Windows') }}
         run: |
+          bash setup_julia.sh
           jupyter kernelspec list | grep julia
 
       - name: Run the tests
