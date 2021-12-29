@@ -32,7 +32,7 @@ jobs:
       - name: Base setup
         uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
 
-      - name: Setup conda ${{ matrix.PYTHON_VERSION }}
+      - name: Setup conda ${{ matrix.python-version }}
         uses: conda-incubator/setup-miniconda@v2
         with:
           auto-update-conda: true
@@ -49,6 +49,7 @@ jobs:
         run: |
           bash setup_julia.sh
           jupyter kernelspec list | grep julia
+          python test_juila.py
 
-      - name: Run the tests
-        run: python -m unittest -v
+      # - name: Run the tests
+      #   run: python -m unittest -v

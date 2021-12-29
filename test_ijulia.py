@@ -7,6 +7,7 @@ language being tested)
 import unittest
 
 from jupyter_client.kernelspec import KernelSpecManager, NoSuchKernel
+from jupyter_client.manager import KernelManager
 import jupyter_kernel_test as jkt
 
 class JuliaKernelTests(jkt.KernelTests):
