@@ -49,7 +49,7 @@ jobs:
         run: |
           bash setup_julia.sh
           jupyter kernelspec list | grep julia
-          python test_juila.py
+          python test_julia.py
 
       # - name: Run the tests
       #   run: python -m unittest -v
