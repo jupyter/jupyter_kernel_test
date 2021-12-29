@@ -4,7 +4,6 @@ A non-python example, with tests for IRKernel (irkernel.github.io).
 language being tested)
 """
 
-import os
 import unittest
 
 from jupyter_client.kernelspec import KernelSpecManager, NoSuchKernel
@@ -15,6 +14,12 @@ class IRKernelTests(jkt.KernelTests):
 
     @classmethod
     def setUpClass(cls):
+        manager = KernelSpecManager()
+        specs = manager.find_kernel_specs()
+        for name in specs:
+            if name.startswith('julia-'):
+                cls.kernel_name = name
+                break
         try:
             cls.km, cls.kc = jkt.start_new_kernel(kernel_name=cls.kernel_name)
         except NoSuchKernel:

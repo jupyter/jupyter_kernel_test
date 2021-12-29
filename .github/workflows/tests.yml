@@ -50,7 +50,7 @@ jobs:
 
       - name: List Kernels
         run: |
-          jupyter kernelspec list
+          jupyter kernelspec list | grep julia
 
       - name: Run the tests
         run: python -m unittest -v
