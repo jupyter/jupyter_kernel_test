@@ -6,5 +6,4 @@ dependencies:
   - r-irkernel
   - pip
   - setuptools
-  - julia  # [not win]
   - wheel
