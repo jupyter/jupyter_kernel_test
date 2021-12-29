@@ -21,7 +21,7 @@ class IRKernelTests(jkt.KernelTests):
                 cls.kernel_name = name
                 break
         try:
-            cls.km, cls.kc = jkt.start_new_kernel(kernel_name=cls.kernel_name, startup_timeout=120)
+            cls.km, cls.kc = jkt.start_new_kernel(kernel_name=cls.kernel_name, startup_timeout=240)
         except NoSuchKernel:
             raise unittest.SkipTest("No julia kernel installed")
 
