@@ -44,6 +44,9 @@ jobs:
         run: |
           pip install -e .[test]
 
+      - name: Install Julia
+        uses: julia-actions/setup-julia@v1
+
       - name: Set up Julia
         if: ${{ !startsWith(runner.os, 'Windows') }}
         run: |
