@@ -43,9 +43,14 @@ jobs:
       - name: Set up Julia
         if: ${{ !startsWith(runner.os, 'Windows') }}
         run: bash setup_julia.sh
+
       - name: Install dependencies
         run: |
           pip install -e .[test]
+
+      - name: List Kernels
+        run: |
+          jupyter kernelspec list
 
       - name: Run the tests
         run: python -m unittest -v
