@@ -41,7 +41,10 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
-        run: pip install -e .[test]
+        run: |
+          pip install -e .[test]
+          julia -e 'using Pkg; Pkg.add("IJulia")'
+          julia -e 'using Pkg; Pkg.add("Plots")'
 
       - name: Run the tests
         run: python -m unittest -v
