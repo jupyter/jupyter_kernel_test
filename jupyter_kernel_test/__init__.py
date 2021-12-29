@@ -229,9 +229,11 @@ class KernelTests(TestCase):
                         found = True
                     else:
                         continue
-                    self.assertIn('text/plain', msg['content']['data'])
-                    self.assertEqual(msg['content']['data']['text/plain'],
-                                    sample['result'])
+                    mime = sample.get('mime', 'text/plain')
+                    self.assertIn(mime, msg['content']['data'])
+                    if 'result' in sample:
+                        self.assertEqual(msg['content']['data'][mime],
+                                        sample['result'])
                 assert found, 'execute_result message not found'
 
     code_display_data = []
@@ -281,7 +283,7 @@ class KernelTests(TestCase):
             raise SkipTest
 
         codes = [s['code'] for s in self.code_execute_result]
-        results = [s['result'] for s in self.code_execute_result]
+        results = [s.get('result', '') for s in self.code_execute_result]
         n = len(codes)
 
         session = start = None

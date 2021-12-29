@@ -256,7 +256,7 @@ schema_fragments["kernel_info_reply"] = {"properties": {
         "text": {"type": "string"},
         "url": {"type": "string"}
     }}}
-}, "required": ["status", "protocol_version", "implementation", "implementation_version", "language_info", "banner"]}
+}, "required": ["status", "protocol_version", "implementation", "language_info", "banner"]}
 
 schema_fragments['shutdown_request'] = {"properties": {
     "restart": {"type": "boolean"},

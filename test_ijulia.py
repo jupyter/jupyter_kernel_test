@@ -9,7 +9,7 @@ import unittest
 from jupyter_client.kernelspec import KernelSpecManager, NoSuchKernel
 import jupyter_kernel_test as jkt
 
-class IRKernelTests(jkt.KernelTests):
+class JuliaKernelTests(jkt.KernelTests):
     kernel_name = "julia"
 
     @classmethod
@@ -21,7 +21,7 @@ class IRKernelTests(jkt.KernelTests):
                 cls.kernel_name = name
                 break
         try:
-            cls.km, cls.kc = jkt.start_new_kernel(kernel_name=cls.kernel_name, startup_timeout=240)
+            cls.km, cls.kc = jkt.start_new_kernel(kernel_name=cls.kernel_name)
         except NoSuchKernel:
             raise unittest.SkipTest("No julia kernel installed")
 
@@ -29,22 +29,22 @@ class IRKernelTests(jkt.KernelTests):
 
     file_extension = ".jl"
 
-    code_hello_world = 'println("Hello world!")'
+    code_hello_world = 'println("hello, world!")'
 
     completion_samples = [
         {
             'text': 'prin',
-            'matches': {'print', 'println'},
+            'matches': {'print', 'println', 'printstyled'},
         },
     ]
 
-    complete_code_samples = ['1', "print('hello, world')"]
+    complete_code_samples = ['1', "println(\"hello, world!\")"]
     incomplete_code_samples = ["print('hello"]
 
     code_generate_error = "throw('hi')"
 
-    code_display_data = [
-        {'code': "using Plots; x = 1:10; y = rand(10); plot(x,y, label=\"my label\")", 'mime': "image/png"},
+    code_execute_result = [
+        {'code': 'using Plots; x = 1:10; y = rand(10); plot(x,y, label="my label")', 'mime': "image/svg+xml"},
     ]
 
 
