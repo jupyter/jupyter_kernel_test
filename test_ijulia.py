@@ -17,7 +17,7 @@ class IRKernelTests(jkt.KernelTests):
         manager = KernelSpecManager()
         specs = manager.find_kernel_specs()
         for name in specs:
-            if name.startswith('julia-'):
+            if name.startswith('julia'):
                 cls.kernel_name = name
                 break
         try:
