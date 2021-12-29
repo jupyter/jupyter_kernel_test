@@ -1,4 +1,4 @@
 include *.py
 include *.md
-include setup_julia.sh
+exclude setup_julia.sh
 exclude environment.yml
