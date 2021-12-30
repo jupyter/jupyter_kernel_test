@@ -21,7 +21,7 @@ class XeusClingKernelTests(jkt.KernelTests):
         except NoSuchKernel:
             raise unittest.SkipTest('Xeus-Cling Kernel not installed')
 
-    language_name = "xcpp17"
+    language_name = "c++"
 
     file_extension = ".cpp"
 
