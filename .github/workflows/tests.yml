@@ -45,7 +45,7 @@ jobs:
           pip install -e .[test]
 
       - name: Install xeus-cling
-        if: ${{ !startsWith(runner.os, "Windows") }}
+        if: ${{ !startsWith(runner.os, 'Windows') }}
         run: |
           conda install -c conda-forge xeus-cling
 
