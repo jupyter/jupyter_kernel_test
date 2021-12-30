@@ -32,7 +32,7 @@ jobs:
       - name: Base setup
         uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
 
-      - name: Setup conda ${{ matrix.PYTHON_VERSION }}
+      - name: Setup conda ${{ matrix.python-version }}
         uses: conda-incubator/setup-miniconda@v2
         with:
           auto-update-conda: true
@@ -40,8 +40,14 @@ jobs:
           activate-environment: jupyter_kernel_test
           python-version: ${{ matrix.python-version }}
 
+      - name: Install xeus-cling
+        if: startsWith(runner.os, 'Linux')
+        run: |
+          conda install -c conda-forge xeus-cling
+
       - name: Install dependencies
-        run: pip install -e .[test]
+        run: |
+          pip install -e .[test]
 
       - name: Run the tests
         run: python -m unittest -v
