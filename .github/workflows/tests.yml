@@ -43,7 +43,7 @@ jobs:
       - name: Install xeus-cling
         if: ${{ !startsWith(runner.os, 'Windows') }}
         run: |
-          conda install -c conda-forge xeus-cling
+          conda install -c conda-forge xeus-cling jupyter_client
           jupyter kernelspec list
 
       # - name: Install dependencies
