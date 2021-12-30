@@ -7,4 +7,4 @@ dependencies:
   - pip
   - setuptools
   - wheel
-  - xeus-cling
+  - xeus-cling  # [not win]
