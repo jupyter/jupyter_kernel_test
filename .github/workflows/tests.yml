@@ -38,10 +38,8 @@ jobs:
           auto-update-conda: true
           environment-file: environment.yml
           activate-environment: jupyter_kernel_test
+          miniforge-variant: Mambaforge
           python-version: ${{ matrix.python-version }}
-
-      - name: Install Julia
-        uses: julia-actions/setup-julia@v1
 
       - name: Install dependencies
         run: |
