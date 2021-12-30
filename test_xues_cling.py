@@ -12,7 +12,7 @@ import jupyter_kernel_test as jkt
 
 
 class XeusClingKernelTests(jkt.KernelTests):
-    kernel_name = "C++17"
+    kernel_name = "xcpp17"
 
     @classmethod
     def setUpClass(cls):
@@ -21,7 +21,7 @@ class XeusClingKernelTests(jkt.KernelTests):
         except NoSuchKernel:
             raise unittest.SkipTest('Xeus-Cling Kernel not installed')
 
-    language_name = "C++17"
+    language_name = "xcpp17"
 
     file_extension = ".cpp"
 
