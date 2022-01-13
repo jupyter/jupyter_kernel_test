@@ -1,5 +1,5 @@
 """
-A non-python example, with tests for IRKernel (irkernel.github.io).
+A non-python example, with tests for xeus-cling kernel (https://github.com/jupyter-xeus/xeus-cling).
 (Beware of python quoting/string escaping rules being different to the
 language being tested)
 """
