@@ -4,7 +4,9 @@ Example use of jupyter_kernel_test, with tests for the default python3 kernel
 """
 
 import unittest
+
 import jupyter_kernel_test as jkt
+
 
 class IPyKernelTests(jkt.KernelTests):
 
@@ -37,8 +39,8 @@ class IPyKernelTests(jkt.KernelTests):
     # `matches` the list of all complete matching strings which should be found
     completion_samples = [
         {
-            'text': 'zi',
-            'matches': {'zip'},
+            "text": "zi",
+            "matches": {"zip"},
         },
     ]
 
@@ -46,9 +48,9 @@ class IPyKernelTests(jkt.KernelTests):
     # these samples should respectively be unambigiously complete statements
     # (which should be executed on <enter>), incomplete statements or code
     # which should be identified as invalid
-    complete_code_samples = ['1', "print('hello, world')", "def f(x):\n  return x*2\n\n\n"]
+    complete_code_samples = ["1", "print('hello, world')", "def f(x):\n  return x*2\n\n\n"]
     incomplete_code_samples = ["print('''hello", "def f(x):\n  x*2"]
-    invalid_code_samples = ['import = 7q']
+    invalid_code_samples = ["import = 7q"]
 
     # code which should cause a help pager to be displayed (as of 4.1, this is
     # displayed by the notebook only as inline text, so it's probably more
@@ -65,8 +67,8 @@ class IPyKernelTests(jkt.KernelTests):
     # result here will always be a string representation of whatever the actual
     # result type is - be careful of string formatting)
     code_execute_result = [
-        {'code': "1+2+3", 'result': "6"},
-        {'code': "[n*n for n in range(1, 4)]", 'result': "[1, 4, 9]"}
+        {"code": "1+2+3", "result": "6"},
+        {"code": "[n*n for n in range(1, 4)]", "result": "[1, 4, 9]"},
     ]
 
     # code which generates some sort of rich output
@@ -75,10 +77,14 @@ class IPyKernelTests(jkt.KernelTests):
     # note that this expects a `display_data` message rather than
     # `execute_result`; this test might be a little too inflexible in some cases
     code_display_data = [
-        {'code': "from IPython.display import HTML, display; display(HTML('<b>test</b>'))",
-         'mime': "text/html"},
-        {'code': "from IPython.display import Math, display; display(Math('\\frac{1}{2}'))",
-         'mime': "text/latex"}
+        {
+            "code": "from IPython.display import HTML, display; display(HTML('<b>test</b>'))",
+            "mime": "text/html",
+        },
+        {
+            "code": "from IPython.display import Math, display; display(Math('\\frac{1}{2}'))",
+            "mime": "text/latex",
+        },
     ]
 
     # test the support for searching/recalling history (used by console only)
@@ -102,5 +108,6 @@ class IPyKernelTests(jkt.KernelTests):
     # the client
     code_clear_output = "from IPython.display import clear_output; clear_output()"
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

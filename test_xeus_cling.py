@@ -4,10 +4,11 @@ A non-python example, with tests for xeus-cling kernel (https://github.com/jupyt
 language being tested)
 """
 
-import unittest
 import shutil
+import unittest
 
 from jupyter_client.kernelspec import NoSuchKernel
+
 import jupyter_kernel_test as jkt
 
 
@@ -19,7 +20,7 @@ class XeusClingKernelTests(jkt.KernelTests):
         try:
             cls.km, cls.kc = jkt.start_new_kernel(kernel_name=cls.kernel_name)
         except NoSuchKernel:
-            raise unittest.SkipTest('Xeus-Cling Kernel not installed')
+            raise unittest.SkipTest("Xeus-Cling Kernel not installed")
 
     language_name = "c++"
 
@@ -29,15 +30,15 @@ class XeusClingKernelTests(jkt.KernelTests):
 
     code_stderr = '#include <iostream>\nstd::cerr << "some error" << std::endl;'
 
-    complete_code_samples = ['1', "int j=5"]
+    complete_code_samples = ["1", "int j=5"]
     incomplete_code_samples = ["double sqr(double a"]
 
     code_generate_error = 'throw std::runtime_error("Unknown exception");'
 
     code_execute_result = [
-        {'code': 'int j = 5;j', 'result': "5"},
+        {"code": "int j = 5;j", "result": "5"},
     ]
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
