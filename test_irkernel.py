@@ -7,7 +7,7 @@ language being tested)
 import os
 import unittest
 
-from jupyter_client.kernelspec import KernelSpecManager, NoSuchKernel
+from jupyter_client.kernelspec import NoSuchKernel
 
 import jupyter_kernel_test as jkt
 

@@ -4,7 +4,6 @@
 # Distributed under the terms of the Modified BSD License.
 
 from queue import Empty
-from time import time
 from unittest import SkipTest, TestCase
 
 from jupyter_client.manager import start_new_kernel
@@ -282,7 +281,7 @@ class KernelTests(TestCase):
             raise SkipTest
 
         codes = [s["code"] for s in self.code_execute_result]
-        results = [s.get("result", "") for s in self.code_execute_result]
+        _ = [s.get("result", "") for s in self.code_execute_result]
         n = len(codes)
 
         session = start = None
