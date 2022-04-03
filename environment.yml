@@ -5,5 +5,6 @@ dependencies:
   - r-recommended
   - r-irkernel
   - pip
+  - readline
   - setuptools
   - wheel
