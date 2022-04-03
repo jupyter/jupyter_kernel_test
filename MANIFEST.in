@@ -2,3 +2,5 @@ include *.py
 include *.md
 exclude setup_julia.sh
 exclude environment.yml
+exclude .pre-commit-config.yaml
+exclude .git-blame-ignore-revs
