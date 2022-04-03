@@ -74,7 +74,7 @@ jobs:
         uses: jupyterlab/maintainer-tools/.github/actions/install-minimums@v1
       - name: Run the unit tests
         run: |
-          pytest -vv -W default || pytest -vv -W default --lf
+          python -m unittest -v || python -m unittest -v
 
   test_prereleases:
     name: Test Prereleases
@@ -94,7 +94,7 @@ jobs:
           pip check
       - name: Run the tests
         run: |
-          pytest -vv || pytest -vv --lf
+          python -m unittest -v || python -m unittest -v
 
   make_sdist:
     name: Make SDist
@@ -113,3 +113,5 @@ jobs:
     steps:
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
       - uses: jupyterlab/maintainer-tools/.github/actions/test-sdist@v1
+        with:
+          test_command: "python -m unittest -v || python -m unittest -v"
