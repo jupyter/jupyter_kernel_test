@@ -4,7 +4,6 @@ A non-python example, with tests for xeus-cling kernel (https://github.com/jupyt
 language being tested)
 """
 
-import shutil
 import unittest
 
 from jupyter_client.kernelspec import NoSuchKernel
