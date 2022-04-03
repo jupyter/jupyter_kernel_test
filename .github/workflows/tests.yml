@@ -6,6 +6,10 @@ on:
   schedule:
     - cron: "0 0 * * *"
 
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
 defaults:
   run:
     shell: bash -l {0}
