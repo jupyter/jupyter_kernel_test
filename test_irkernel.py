@@ -18,7 +18,7 @@ class IRKernelTests(jkt.KernelTests):
     @classmethod
     def setUpClass(cls):
         try:
-            cls.km, cls.kc = jkt.start_new_kernel(kernel_name=cls.kernel_name)
+            cls.km, cls.kc = jkt.start_new_kernel(kernel_name=cls.kernel_name, startup_timeout=120)
         except NoSuchKernel:
             raise unittest.SkipTest("No ir kernel installed")
 
