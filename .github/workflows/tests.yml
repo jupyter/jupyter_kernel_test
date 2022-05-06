@@ -60,7 +60,7 @@ jobs:
           pip install -e .[test]
 
       - name: Run the tests
-        run: python -m unittest -v
+        run: python -m unittest -v || python -m unittest -v
 
   test_minimum_versions:
     name: Test Minimum Versions
