@@ -1,6 +1,6 @@
 [build-system]
-requires = ["flit_core >=3.2,<4"]
-build-backend = "flit_core.buildapi"
+requires = ["hatchling>=1.4"]
+build-backend = "hatchling.build"
 
 [project]
 name = "jupyter_kernel_test"
@@ -16,7 +16,7 @@ dependencies = [
   "jupyter_client >=6.1.13",
   "jsonschema"
 ]
-dynamic = ["description", "version"]
+dynamic = ["description"]
 
 [[project.authors]]
 name = "Jupyter Development Team"
@@ -49,5 +49,17 @@ regex = '''
 message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
 
+[[tool.tbump.field]]
+name = "channel"
+default = ""
+
+[[tool.tbump.field]]
+name = "release"
+default = ""
+
 [[tool.tbump.file]]
 src = "jupyter_kernel_test/__init__.py"
+
+[[tool.tbump.file]]
+src = "pyproject.toml"
+version_template = "version = \"{major}.{minor}.{patch}{channel}{release}\""
