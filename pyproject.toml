@@ -4,6 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "jupyter_kernel_test"
+version = "0.4.3"
 license = { file = "LICENSE" }
 classifiers = [
   "License :: OSI Approved :: BSD License",
