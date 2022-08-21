@@ -1,6 +1,6 @@
 [build-system]
-requires = ["flit_core >=3.2,<4"]
-build-backend = "flit_core.buildapi"
+requires = ["hatchling >=1.5"]
+build-backend = "hatchling.build"
 
 [project]
 name = "jupyter_kernel_test"
@@ -34,6 +34,9 @@ test = [
   "ipykernel",
   "pre-commit"
 ]
+
+[tool.hatch.version]
+path = "jupyter_kernel_test/__init__.py"
 
 [tool.jupyter-releaser]
 skip = ["check-links"]
