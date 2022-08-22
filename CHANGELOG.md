@@ -2,6 +2,22 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.4.5
+
+([Full Changelog](https://github.com/jupyter/jupyter_kernel_test/compare/v0.4.4...85c23f820f8127808f60dab6f5871e8d26c01192))
+
+### Maintenance and upkeep improvements
+
+- Switch to hatch backend [#100](https://github.com/jupyter/jupyter_kernel_test/pull/100) ([@blink1073](https://github.com/blink1073))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/jupyter_kernel_test/graphs/contributors?from=2022-08-19&to=2022-08-22&type=c))
+
+[@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Ablink1073+updated%3A2022-08-19..2022-08-22&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.4.4
 
 ([Full Changelog](https://github.com/jupyter/jupyter_kernel_test/compare/v0.4.3...b723ce668df0de185f9b682d85379e515cfc012b))
@@ -41,8 +57,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyter/jupyter_kernel_test/graphs/contributors?from=2021-12-06&to=2022-08-19&type=c))
 
 [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Ablink1073+updated%3A2021-12-06..2022-08-19&type=Issues) | [@martinRenou](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3AmartinRenou+updated%3A2021-12-06..2022-08-19&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Apre-commit-ci+updated%3A2021-12-06..2022-08-19&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.4.3
 
