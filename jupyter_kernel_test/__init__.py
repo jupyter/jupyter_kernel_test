@@ -3,6 +3,7 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
+import inspect
 from queue import Empty
 from unittest import SkipTest, TestCase
 
@@ -14,6 +15,12 @@ from .msgspec_v5 import validate_message
 TIMEOUT = 15
 
 __version__ = "0.4.5"
+
+
+def ensure_sync(func):
+    if inspect.iscoroutinefunction(func):
+        return run_sync(func)
+    return func
 
 
 class KernelTests(TestCase):
@@ -32,7 +39,9 @@ class KernelTests(TestCase):
         for channel in (self.kc.shell_channel, self.kc.iopub_channel):
             while True:
                 try:
-                    msg = run_sync(channel.get_msg)(timeout=0.1)
+                    msg = ensure_sync(channel.get_msg)(timeout=0.1)
+                except TypeError:
+                    msg = channel.get_msg(timeout=0.1)
                 except Empty:
                     break
                 else:
@@ -66,13 +75,13 @@ class KernelTests(TestCase):
         reply = self.get_non_kernel_info_reply(timeout=timeout)
         validate_message(reply, "execute_reply", msg_id)
 
-        busy_msg = run_sync(self.kc.iopub_channel.get_msg)(timeout=1)
+        busy_msg = ensure_sync(self.kc.iopub_channel.get_msg)(timeout=1)
         validate_message(busy_msg, "status", msg_id)
         self.assertEqual(busy_msg["content"]["execution_state"], "busy")
 
         output_msgs = []
         while True:
-            msg = run_sync(self.kc.iopub_channel.get_msg)(timeout=0.1)
+            msg = ensure_sync(self.kc.iopub_channel.get_msg)(timeout=0.1)
             validate_message(msg, msg["msg_type"], msg_id)
             if msg["msg_type"] == "status":
                 self.assertEqual(msg["content"]["execution_state"], "idle")
