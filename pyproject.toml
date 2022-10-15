@@ -5,6 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "jupyter_kernel_test"
 license = { file = "LICENSE" }
+readme = "README.rst"
 classifiers = [
   "License :: OSI Approved :: BSD License",
   "Intended Audience :: Developers",
@@ -22,10 +23,6 @@ dynamic = ["description", "version"]
 name = "Jupyter Development Team"
 email = "jupyter@googlegroups.com"
 
-[project.readme]
-file = "README.rst"
-content-type = "text/x-rst"
-
 [project.urls]
 Homepage = "https://github.com/jupyter/jupyter_kernel_test"
 
@@ -37,6 +34,3 @@ test = [
 
 [tool.hatch.version]
 path = "jupyter_kernel_test/__init__.py"
-
-[tool.jupyter-releaser]
-skip = ["check-links"]
