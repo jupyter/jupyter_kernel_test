@@ -25,26 +25,26 @@
 ### Maintenance and upkeep improvements
 
 - Stop testing xeus cling [#97](https://github.com/jupyter/jupyter_kernel_test/pull/97) ([@blink1073](https://github.com/blink1073))
-- [pre-commit.ci] pre-commit autoupdate [#96](https://github.com/jupyter/jupyter_kernel_test/pull/96) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [#96](https://github.com/jupyter/jupyter_kernel_test/pull/96) ([@pre-commit-ci](https://github.com/pre-commit-ci))
 - Fix flake8 v5 compat [#95](https://github.com/jupyter/jupyter_kernel_test/pull/95) ([@blink1073](https://github.com/blink1073))
-- [pre-commit.ci] pre-commit autoupdate [#94](https://github.com/jupyter/jupyter_kernel_test/pull/94) ([@pre-commit-ci](https://github.com/pre-commit-ci))
-- [pre-commit.ci] pre-commit autoupdate [#92](https://github.com/jupyter/jupyter_kernel_test/pull/92) ([@pre-commit-ci](https://github.com/pre-commit-ci))
-- [pre-commit.ci] pre-commit autoupdate [#91](https://github.com/jupyter/jupyter_kernel_test/pull/91) ([@pre-commit-ci](https://github.com/pre-commit-ci))
-- [pre-commit.ci] pre-commit autoupdate [#90](https://github.com/jupyter/jupyter_kernel_test/pull/90) ([@pre-commit-ci](https://github.com/pre-commit-ci))
-- [pre-commit.ci] pre-commit autoupdate [#89](https://github.com/jupyter/jupyter_kernel_test/pull/89) ([@pre-commit-ci](https://github.com/pre-commit-ci))
-- [pre-commit.ci] pre-commit autoupdate [#88](https://github.com/jupyter/jupyter_kernel_test/pull/88) ([@pre-commit-ci](https://github.com/pre-commit-ci))
-- [pre-commit.ci] pre-commit autoupdate [#87](https://github.com/jupyter/jupyter_kernel_test/pull/87) ([@pre-commit-ci](https://github.com/pre-commit-ci))
-- [pre-commit.ci] pre-commit autoupdate [#86](https://github.com/jupyter/jupyter_kernel_test/pull/86) ([@pre-commit-ci](https://github.com/pre-commit-ci))
-- [pre-commit.ci] pre-commit autoupdate [#85](https://github.com/jupyter/jupyter_kernel_test/pull/85) ([@pre-commit-ci](https://github.com/pre-commit-ci))
-- [pre-commit.ci] pre-commit autoupdate [#84](https://github.com/jupyter/jupyter_kernel_test/pull/84) ([@pre-commit-ci](https://github.com/pre-commit-ci))
-- [pre-commit.ci] pre-commit autoupdate [#83](https://github.com/jupyter/jupyter_kernel_test/pull/83) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [#94](https://github.com/jupyter/jupyter_kernel_test/pull/94) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [#92](https://github.com/jupyter/jupyter_kernel_test/pull/92) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [#91](https://github.com/jupyter/jupyter_kernel_test/pull/91) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [#90](https://github.com/jupyter/jupyter_kernel_test/pull/90) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [#89](https://github.com/jupyter/jupyter_kernel_test/pull/89) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [#88](https://github.com/jupyter/jupyter_kernel_test/pull/88) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [#87](https://github.com/jupyter/jupyter_kernel_test/pull/87) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [#86](https://github.com/jupyter/jupyter_kernel_test/pull/86) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [#85](https://github.com/jupyter/jupyter_kernel_test/pull/85) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [#84](https://github.com/jupyter/jupyter_kernel_test/pull/84) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [#83](https://github.com/jupyter/jupyter_kernel_test/pull/83) ([@pre-commit-ci](https://github.com/pre-commit-ci))
 - Enable auto-label for bot PRs [#82](https://github.com/jupyter/jupyter_kernel_test/pull/82) ([@blink1073](https://github.com/blink1073))
-- [pre-commit.ci] pre-commit autoupdate [#81](https://github.com/jupyter/jupyter_kernel_test/pull/81) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [#81](https://github.com/jupyter/jupyter_kernel_test/pull/81) ([@pre-commit-ci](https://github.com/pre-commit-ci))
 - Run tests twice [#80](https://github.com/jupyter/jupyter_kernel_test/pull/80) ([@blink1073](https://github.com/blink1073))
 - Use flit build backend [#79](https://github.com/jupyter/jupyter_kernel_test/pull/79) ([@blink1073](https://github.com/blink1073))
-- [pre-commit.ci] pre-commit autoupdate [#78](https://github.com/jupyter/jupyter_kernel_test/pull/78) ([@pre-commit-ci](https://github.com/pre-commit-ci))
-- [pre-commit.ci] pre-commit autoupdate [#77](https://github.com/jupyter/jupyter_kernel_test/pull/77) ([@pre-commit-ci](https://github.com/pre-commit-ci))
-- [pre-commit.ci] pre-commit autoupdate [#76](https://github.com/jupyter/jupyter_kernel_test/pull/76) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [#78](https://github.com/jupyter/jupyter_kernel_test/pull/78) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [#77](https://github.com/jupyter/jupyter_kernel_test/pull/77) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [#76](https://github.com/jupyter/jupyter_kernel_test/pull/76) ([@pre-commit-ci](https://github.com/pre-commit-ci))
 - Adopt flake8 and update ci [#75](https://github.com/jupyter/jupyter_kernel_test/pull/75) ([@blink1073](https://github.com/blink1073))
 - Add git-blame-ignore-revs [#74](https://github.com/jupyter/jupyter_kernel_test/pull/74) ([@blink1073](https://github.com/blink1073))
 - Adopt pre-commit [#73](https://github.com/jupyter/jupyter_kernel_test/pull/73) ([@blink1073](https://github.com/blink1073))
@@ -111,13 +111,19 @@
 ### Maintenance and upkeep improvements
 
 - Prep for jupyter releaser usage [#59](https://github.com/jupyter/jupyter_kernel_test/pull/59) ([@blink1073](https://github.com/blink1073))
+
 - Test IR Kernel and Clean Up [#58](https://github.com/jupyter/jupyter_kernel_test/pull/58) ([@blink1073](https://github.com/blink1073))
+
 - Update for Jupyter Client 7 and GitHub Actions [#57](https://github.com/jupyter/jupyter_kernel_test/pull/57) ([@blink1073](https://github.com/blink1073))
+
 - Fix import issue with pytest [#46](https://github.com/jupyter/jupyter_kernel_test/pull/46) ([@martinRenou](https://github.com/martinRenou))
+
 - Use new kernel management modules [#41](https://github.com/jupyter/jupyter_kernel_test/pull/41) ([@takluyver](https://github.com/takluyver))
+
 - Replace COPYING.md with LICENCE file [#34](https://github.com/jupyter/jupyter_kernel_test/pull/34) ([@tgb417](https://github.com/tgb417))
 
 - Fix custom test example in README [#49](https://github.com/jupyter/jupyter_kernel_test/pull/49) ([@kylebarron](https://github.com/kylebarron))
+
 - Fix readme [#45](https://github.com/jupyter/jupyter_kernel_test/pull/45) ([@martinRenou](https://github.com/martinRenou))
 
 ### Contributors to this release
