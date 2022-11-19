@@ -141,7 +141,7 @@ jobs:
   tests_check: # This job does nothing and is only used for the branch protection
     if: always()
     needs:
-      - build
+      - test
       - pre_commit
       - check_release
       - test_minimum_versions
