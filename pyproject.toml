@@ -35,6 +35,12 @@ test = [
 [tool.hatch.version]
 path = "jupyter_kernel_test/__init__.py"
 
+[tool.hatch.envs.test]
+features = ["test"]
+[tool.hatch.envs.test.scripts]
+test = "python -m unittest -v {args}"
+nowarn = "test -W default {args}"
+
 [tool.flake8]
 ignore = "E501, W503, E402"
 builtins = "c, get_config"
