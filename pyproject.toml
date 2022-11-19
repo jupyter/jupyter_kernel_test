@@ -39,7 +39,6 @@ path = "jupyter_kernel_test/__init__.py"
 features = ["test"]
 [tool.hatch.envs.test.scripts]
 test = "python -m unittest -v {args}"
-nowarn = "test -W default {args}"
 
 [tool.flake8]
 ignore = "E501, W503, E402"

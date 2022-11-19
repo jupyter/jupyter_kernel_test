@@ -76,7 +76,7 @@ jobs:
       - name: Run the unit tests
         run: |
           export PIP_CONSTRAINT="./contraints_file.txt"
-          hatch run test:nowarn || hatch run test:nowarn
+          hatch run test:test || hatch run test:test
 
   test_prereleases:
     name: Test Prereleases
@@ -90,7 +90,7 @@ jobs:
       - name: Run the tests
         run: |
           export PIP_PRE=1
-          hatch run test:nowarn || hatch run test:nowarn
+          hatch run test:test || hatch run test:test
 
   make_sdist:
     name: Make SDist
