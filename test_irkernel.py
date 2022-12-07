@@ -20,7 +20,7 @@ class IRKernelTests(jkt.KernelTests):
         try:
             cls.km, cls.kc = jkt.start_new_kernel(kernel_name=cls.kernel_name)
         except NoSuchKernel:
-            raise unittest.SkipTest("No ir kernel installed")
+            raise unittest.SkipTest("No ir kernel installed") from None
 
     language_name = "R"
 
