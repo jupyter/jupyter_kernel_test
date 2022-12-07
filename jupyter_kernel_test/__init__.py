@@ -7,7 +7,8 @@ import inspect
 from queue import Empty
 from unittest import SkipTest, TestCase
 
-from jupyter_client.manager import start_new_kernel
+from jupyter_client.blocking.client import BlockingKernelClient
+from jupyter_client.manager import KernelManager, start_new_kernel
 from jupyter_client.utils import run_sync
 
 from .msgspec_v5 import validate_message
@@ -25,6 +26,8 @@ def ensure_sync(func):
 
 class KernelTests(TestCase):
     kernel_name = "python3"
+    kc: BlockingKernelClient
+    km: KernelManager
 
     @classmethod
     def setUpClass(cls):
@@ -97,7 +100,7 @@ class KernelTests(TestCase):
 
     def test_execute_stdout(self):
         if not self.code_hello_world:
-            raise SkipTest
+            raise SkipTest("No code hello world")
 
         self.flush_channels()
         reply, output_msgs = self.execute_helper(code=self.code_hello_world)
@@ -118,7 +121,7 @@ class KernelTests(TestCase):
 
     def test_execute_stderr(self):
         if not self.code_stderr:
-            raise SkipTest
+            raise SkipTest("No code stderr")
 
         self.flush_channels()
         reply, output_msgs = self.execute_helper(code=self.code_stderr)
@@ -135,7 +138,7 @@ class KernelTests(TestCase):
                 False, "Expected one output message of type 'stream' and 'content.name'='stderr'"
             )
 
-    completion_samples = []
+    completion_samples: list = []
 
     def get_non_kernel_info_reply(self, timeout=None):
         while True:
@@ -145,7 +148,7 @@ class KernelTests(TestCase):
 
     def test_completion(self):
         if not self.completion_samples:
-            raise SkipTest
+            raise SkipTest("No completion samples")
 
         for sample in self.completion_samples:
             with self.subTest(text=sample["text"]):
@@ -155,9 +158,9 @@ class KernelTests(TestCase):
                 if "matches" in sample:
                     self.assertEqual(set(reply["content"]["matches"]), set(sample["matches"]))
 
-    complete_code_samples = []
-    incomplete_code_samples = []
-    invalid_code_samples = []
+    complete_code_samples: list = []
+    incomplete_code_samples: list = []
+    invalid_code_samples: list = []
 
     def check_is_complete(self, sample, status):
         msg_id = self.kc.is_complete(sample)
@@ -171,7 +174,7 @@ class KernelTests(TestCase):
         if not (
             self.complete_code_samples or self.incomplete_code_samples or self.invalid_code_samples
         ):
-            raise SkipTest
+            raise SkipTest("Not testing is_complete")
 
         self.flush_channels()
 
@@ -191,7 +194,7 @@ class KernelTests(TestCase):
 
     def test_pager(self):
         if not self.code_page_something:
-            raise SkipTest
+            raise SkipTest("No code page something")
 
         self.flush_channels()
 
@@ -207,7 +210,7 @@ class KernelTests(TestCase):
 
     def test_error(self):
         if not self.code_generate_error:
-            raise SkipTest
+            raise SkipTest("No code generate error")
 
         self.flush_channels()
 
@@ -216,11 +219,11 @@ class KernelTests(TestCase):
         self.assertEqual(len(output_msgs), 1)
         self.assertEqual(output_msgs[0]["msg_type"], "error")
 
-    code_execute_result = []
+    code_execute_result: list = []
 
     def test_execute_result(self):
         if not self.code_execute_result:
-            raise SkipTest
+            raise SkipTest("No code execute result")
 
         for sample in self.code_execute_result:
             with self.subTest(code=sample["code"]):
@@ -242,13 +245,14 @@ class KernelTests(TestCase):
                     self.assertIn(mime, msg["content"]["data"])
                     if "result" in sample:
                         self.assertEqual(msg["content"]["data"][mime], sample["result"])
-                assert found, "execute_result message not found"
+                if not found:
+                    raise AssertionError("execute_result message not found")
 
-    code_display_data = []
+    code_display_data: list = []
 
     def test_display_data(self):
         if not self.code_display_data:
-            raise SkipTest
+            raise SkipTest("No code display data")
 
         for sample in self.code_display_data:
             with self.subTest(code=sample["code"]):
@@ -265,7 +269,8 @@ class KernelTests(TestCase):
                     else:
                         continue
                     self.assertIn(sample["mime"], msg["content"]["data"])
-                assert found, "display_data message not found"
+                if not found:
+                    raise AssertionError("display_data message not found")
 
     # this should match one of the values in code_execute_result
     code_history_pattern = ""
@@ -287,7 +292,7 @@ class KernelTests(TestCase):
 
     def test_history(self):
         if not self.code_execute_result:
-            raise SkipTest
+            raise SkipTest("No code execute result")
 
         codes = [s["code"] for s in self.code_execute_result]
         _ = [s.get("result", "") for s in self.code_execute_result]
@@ -297,7 +302,7 @@ class KernelTests(TestCase):
 
         with self.subTest(hist_access_type="tail"):
             if "tail" not in self.supported_history_operations:
-                raise SkipTest
+                raise SkipTest("History tail not suported")
             reply = self.history_helper(codes, output=False, raw=True, hist_access_type="tail", n=n)
             self.assertEqual(len(reply["content"]["history"]), n)
             self.assertEqual(len(reply["content"]["history"][0]), 3)
@@ -312,9 +317,9 @@ class KernelTests(TestCase):
 
         with self.subTest(hist_access_type="range"):
             if "range" not in self.supported_history_operations:
-                raise SkipTest
+                raise SkipTest("History range not supported")
             if session is None:
-                raise SkipTest
+                raise SkipTest("No session")
             reply = self.history_helper(
                 codes,
                 output=False,
@@ -330,9 +335,9 @@ class KernelTests(TestCase):
 
         with self.subTest(hist_access_type="search"):
             if not self.code_history_pattern:
-                raise SkipTest
+                raise SkipTest("No code history pattern")
             if "search" not in self.supported_history_operations:
-                raise SkipTest
+                raise SkipTest("History search not supported")
 
             with self.subTest(subsearch="normal"):
                 reply = self.history_helper(
@@ -368,7 +373,7 @@ class KernelTests(TestCase):
 
     def test_inspect(self):
         if not self.code_inspect_sample:
-            raise SkipTest
+            raise SkipTest("No code inspect sample")
 
         self.flush_channels()
         msg_id = self.kc.inspect(self.code_inspect_sample)
@@ -383,7 +388,7 @@ class KernelTests(TestCase):
 
     def test_clear_output(self):
         if not self.code_clear_output:
-            raise SkipTest
+            raise SkipTest("No code clear output")
 
         self.flush_channels()
         reply, output_msgs = self.execute_helper(code=self.code_clear_output)
@@ -396,4 +401,5 @@ class KernelTests(TestCase):
                 found = True
             else:
                 continue
-        assert found, "clear_output message not found"
+        if not found:
+            raise AssertionError("clear_output message not found")

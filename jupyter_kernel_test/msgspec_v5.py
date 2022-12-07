@@ -11,7 +11,7 @@ protocol_version = (5, 1)
 
 # These fragments will be wrapped in the boilerplate for a valid JSON schema.
 # We also add a default 'required' containing all keys.
-schema_fragments = {}
+schema_fragments: dict = {}
 
 
 def get_msg_content_validator(msg_type, version_minor):
@@ -110,7 +110,7 @@ reply_msgs_using_status = {
 }
 
 
-def validate_message(msg, msg_type=None, parent_id=None):
+def validate_message(msg, msg_type=None, parent_id=None):  # noqa
     msg_structure_validator.validate(msg)
 
     msg_version_s = msg["header"]["version"]
@@ -146,7 +146,7 @@ def validate_message(msg, msg_type=None, parent_id=None):
         try:
             status = msg["content"]["status"]
         except KeyError as e:
-            raise ValidationError(str(e))
+            raise ValidationError(str(e)) from None
         if status == "error":
             content_vdor = get_error_reply_validator(version_minor)
         elif status == "abort":
