@@ -2,6 +2,31 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.5.0
+
+([Full Changelog](https://github.com/jupyter/jupyter_kernel_test/compare/v0.4.5...c3ffbd013b1cdd32d7273d4fbe9ee0ab61af7a1e))
+
+### Maintenance and upkeep improvements
+
+- Upgrade lint [#126](https://github.com/jupyter/jupyter_kernel_test/pull/126) ([@blink1073](https://github.com/blink1073))
+- Adopt ruff and address lint [#123](https://github.com/jupyter/jupyter_kernel_test/pull/123) ([@blink1073](https://github.com/blink1073))
+- Use base setup dependency type [#120](https://github.com/jupyter/jupyter_kernel_test/pull/120) ([@blink1073](https://github.com/blink1073))
+- Fix test invocation [#118](https://github.com/jupyter/jupyter_kernel_test/pull/118) ([@blink1073](https://github.com/blink1073))
+- CI Cleanup [#117](https://github.com/jupyter/jupyter_kernel_test/pull/117) ([@blink1073](https://github.com/blink1073))
+- Bump actions/checkout from 2 to 3 [#115](https://github.com/jupyter/jupyter_kernel_test/pull/115) ([@dependabot](https://github.com/dependabot))
+- Add dependabot [#114](https://github.com/jupyter/jupyter_kernel_test/pull/114) ([@blink1073](https://github.com/blink1073))
+- Maintenance cleanup [#111](https://github.com/jupyter/jupyter_kernel_test/pull/111) ([@blink1073](https://github.com/blink1073))
+- Fix client 8 compat [#109](https://github.com/jupyter/jupyter_kernel_test/pull/109) ([@blink1073](https://github.com/blink1073))
+- Maintenance clean up [#106](https://github.com/jupyter/jupyter_kernel_test/pull/106) ([@blink1073](https://github.com/blink1073))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/jupyter_kernel_test/graphs/contributors?from=2022-08-22&to=2023-01-27&type=c))
+
+[@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Ablink1073+updated%3A2022-08-22..2023-01-27&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Adependabot+updated%3A2022-08-22..2023-01-27&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Apre-commit-ci+updated%3A2022-08-22..2023-01-27&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.4.5
 
 ([Full Changelog](https://github.com/jupyter/jupyter_kernel_test/compare/v0.4.4...85c23f820f8127808f60dab6f5871e8d26c01192))
@@ -15,8 +40,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyter/jupyter_kernel_test/graphs/contributors?from=2022-08-19&to=2022-08-22&type=c))
 
 [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Ablink1073+updated%3A2022-08-19..2022-08-22&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.4.4
 
