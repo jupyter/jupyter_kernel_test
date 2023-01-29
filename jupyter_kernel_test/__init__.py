@@ -100,7 +100,7 @@ class KernelTests(TestCase):
 
     def test_execute_stdout(self):
         if not self.code_hello_world:
-            raise SkipTest("No code hello world")
+            raise SkipTest("No code hello world")  # noqa
 
         self.flush_channels()
         reply, output_msgs = self.execute_helper(code=self.code_hello_world)
@@ -121,7 +121,7 @@ class KernelTests(TestCase):
 
     def test_execute_stderr(self):
         if not self.code_stderr:
-            raise SkipTest("No code stderr")
+            raise SkipTest("No code stderr")  # noqa
 
         self.flush_channels()
         reply, output_msgs = self.execute_helper(code=self.code_stderr)
@@ -148,7 +148,7 @@ class KernelTests(TestCase):
 
     def test_completion(self):
         if not self.completion_samples:
-            raise SkipTest("No completion samples")
+            raise SkipTest("No completion samples")  # noqa
 
         for sample in self.completion_samples:
             with self.subTest(text=sample["text"]):
@@ -174,7 +174,7 @@ class KernelTests(TestCase):
         if not (
             self.complete_code_samples or self.incomplete_code_samples or self.invalid_code_samples
         ):
-            raise SkipTest("Not testing is_complete")
+            raise SkipTest("Not testing is_complete")  # noqa
 
         self.flush_channels()
 
@@ -194,7 +194,7 @@ class KernelTests(TestCase):
 
     def test_pager(self):
         if not self.code_page_something:
-            raise SkipTest("No code page something")
+            raise SkipTest("No code page something")  # noqa
 
         self.flush_channels()
 
@@ -210,7 +210,7 @@ class KernelTests(TestCase):
 
     def test_error(self):
         if not self.code_generate_error:
-            raise SkipTest("No code generate error")
+            raise SkipTest("No code generate error")  # noqa
 
         self.flush_channels()
 
@@ -223,7 +223,7 @@ class KernelTests(TestCase):
 
     def test_execute_result(self):
         if not self.code_execute_result:
-            raise SkipTest("No code execute result")
+            raise SkipTest("No code execute result")  # noqa
 
         for sample in self.code_execute_result:
             with self.subTest(code=sample["code"]):
@@ -246,13 +246,14 @@ class KernelTests(TestCase):
                     if "result" in sample:
                         self.assertEqual(msg["content"]["data"][mime], sample["result"])
                 if not found:
-                    raise AssertionError("execute_result message not found")
+                    emsg = "execute_result message not found"
+                    raise AssertionError(emsg)
 
     code_display_data: list = []
 
     def test_display_data(self):
         if not self.code_display_data:
-            raise SkipTest("No code display data")
+            raise SkipTest("No code display data")  # noqa
 
         for sample in self.code_display_data:
             with self.subTest(code=sample["code"]):
@@ -270,7 +271,8 @@ class KernelTests(TestCase):
                         continue
                     self.assertIn(sample["mime"], msg["content"]["data"])
                 if not found:
-                    raise AssertionError("display_data message not found")
+                    emsg = "display_data message not found"
+                    raise AssertionError(emsg)
 
     # this should match one of the values in code_execute_result
     code_history_pattern = ""
@@ -292,7 +294,7 @@ class KernelTests(TestCase):
 
     def test_history(self):
         if not self.code_execute_result:
-            raise SkipTest("No code execute result")
+            raise SkipTest("No code execute result")  # noqa
 
         codes = [s["code"] for s in self.code_execute_result]
         _ = [s.get("result", "") for s in self.code_execute_result]
@@ -302,7 +304,7 @@ class KernelTests(TestCase):
 
         with self.subTest(hist_access_type="tail"):
             if "tail" not in self.supported_history_operations:
-                raise SkipTest("History tail not suported")
+                raise SkipTest("History tail not suported")  # noqa
             reply = self.history_helper(codes, output=False, raw=True, hist_access_type="tail", n=n)
             self.assertEqual(len(reply["content"]["history"]), n)
             self.assertEqual(len(reply["content"]["history"][0]), 3)
@@ -317,9 +319,9 @@ class KernelTests(TestCase):
 
         with self.subTest(hist_access_type="range"):
             if "range" not in self.supported_history_operations:
-                raise SkipTest("History range not supported")
+                raise SkipTest("History range not supported")  # noqa
             if session is None:
-                raise SkipTest("No session")
+                raise SkipTest("No session")  # noqa
             reply = self.history_helper(
                 codes,
                 output=False,
@@ -335,10 +337,9 @@ class KernelTests(TestCase):
 
         with self.subTest(hist_access_type="search"):
             if not self.code_history_pattern:
-                raise SkipTest("No code history pattern")
+                raise SkipTest("No code history pattern")  # noqa
             if "search" not in self.supported_history_operations:
-                raise SkipTest("History search not supported")
-
+                raise SkipTest("History search not supported")  # noqa
             with self.subTest(subsearch="normal"):
                 reply = self.history_helper(
                     codes,
@@ -373,7 +374,7 @@ class KernelTests(TestCase):
 
     def test_inspect(self):
         if not self.code_inspect_sample:
-            raise SkipTest("No code inspect sample")
+            raise SkipTest("No code inspect sample")  # noqa
 
         self.flush_channels()
         msg_id = self.kc.inspect(self.code_inspect_sample)
@@ -388,7 +389,7 @@ class KernelTests(TestCase):
 
     def test_clear_output(self):
         if not self.code_clear_output:
-            raise SkipTest("No code clear output")
+            raise SkipTest("No code clear output")  # noqa
 
         self.flush_channels()
         reply, output_msgs = self.execute_helper(code=self.code_clear_output)
@@ -402,4 +403,5 @@ class KernelTests(TestCase):
             else:
                 continue
         if not found:
-            raise AssertionError("clear_output message not found")
+            emsg = "clear_output message not found"
+            raise AssertionError(emsg)
