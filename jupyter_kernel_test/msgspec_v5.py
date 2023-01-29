@@ -116,14 +116,14 @@ def validate_message(msg, msg_type=None, parent_id=None):  # noqa
     msg_version_s = msg["header"]["version"]
     m = re.match(r"(\d+)\.(\d+)", msg_version_s)
     if not m:
-        raise ValidationError("Version {} not like 'x.y'")
+        emsg = "Version {} not like 'x.y'"
+        raise ValidationError(emsg)
     version_minor = int(m.group(2))
 
     if msg_type is not None:
         if msg["header"]["msg_type"] != msg_type:
-            raise ValidationError(
-                "Message type {!r} != {!r}".format(msg["header"]["msg_type"], msg_type)
-            )
+            emsg = "Message type {!r} != {!r}".format(msg["header"]["msg_type"], msg_type)
+            raise ValidationError(emsg)
     else:
         msg_type = msg["header"]["msg_type"]
 
@@ -131,15 +131,18 @@ def validate_message(msg, msg_type=None, parent_id=None):  # noqa
     if version_minor <= protocol_version[1]:
         unx_top = set(msg) - set(msg_schema["properties"])
         if unx_top:
-            raise ValidationError(f"Unexpected keys: {unx_top}")
+            msg = f"Unexpected keys: {unx_top}"
+            raise ValidationError(msg)
 
         unx_header = set(msg["header"]) - set(header_part["properties"])
         if unx_header:
-            raise ValidationError(f"Unexpected keys in header: {unx_header}")
+            emsg = f"Unexpected keys in header: {unx_header}"
+            raise ValidationError(emsg)
 
     # Check the parent id
     if "reply" in msg_type and parent_id and msg["parent_header"]["msg_id"] != parent_id:
-        raise ValidationError("Parent header does not match expected")
+        emsg = "Parent header does not match expected"
+        raise ValidationError(emsg)
 
     if msg_type in reply_msgs_using_status:
         # Most _reply messages have common 'error' and 'abort' structures
@@ -154,7 +157,8 @@ def validate_message(msg, msg_type=None, parent_id=None):  # noqa
         elif status == "ok":
             content_vdor = get_msg_content_validator(msg_type, version_minor)
         else:
-            raise ValidationError(f"status {status!r} should be ok/error/abort")
+            msg = f"status {status!r} should be ok/error/abort"
+            raise ValidationError(msg)
     else:
         content_vdor = get_msg_content_validator(msg_type, version_minor)
 
