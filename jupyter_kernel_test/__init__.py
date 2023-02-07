@@ -68,7 +68,7 @@ class KernelTests(TestCase):
             )
             self.assertTrue(reply["content"]["language_info"]["file_extension"].startswith("."))
 
-    def execute_helper(
+    def execute_helper(  # noqa
         self, code, timeout=TIMEOUT, silent=False, store_history=True, stop_on_error=True
     ):
         msg_id = self.kc.execute(

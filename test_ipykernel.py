@@ -9,7 +9,6 @@ import jupyter_kernel_test as jkt
 
 
 class IPyKernelTests(jkt.KernelTests):
-
     # REQUIRED
 
     # the kernel to be tested
