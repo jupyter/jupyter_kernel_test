@@ -427,7 +427,8 @@ class IopubWelcomeTests(TestCase):
 
     def test_recv_iopub_welcome_msg(self):
         if not self.support_iopub_welcome:
-            raise SkipTest("Iopub welcome messages are not supported")
+            msg = "Iopub welcome messages are not supported"
+            raise SkipTest(msg)
 
         self.kc.start_channels()
         while True:
