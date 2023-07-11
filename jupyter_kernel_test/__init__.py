@@ -406,6 +406,7 @@ class KernelTests(TestCase):
             emsg = "clear_output message not found"
             raise AssertionError(emsg)
 
+
 class IopubWelcomeTests(TestCase):
     kernel_name = "python3"
     kc: BlockingKernelClient
@@ -430,6 +431,8 @@ class IopubWelcomeTests(TestCase):
             if msg:
                 self.assertEqual(msg["header"]["msg_type"], "iopub_welcome")
                 self.assertEqual(msg["msg_type"], "iopub_welcome")
-                self.assertEqual(msg["content"]["subscription"], "") # Default: empty topic means subscription to all topics
+                self.assertEqual(
+                    msg["content"]["subscription"], ""
+                )  # Default: empty topic means subscription to all topics
 
-                break;
+                break
