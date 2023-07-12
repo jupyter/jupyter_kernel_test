@@ -12,7 +12,7 @@ classifiers = [
   "Programming Language :: Python :: 3",
   "Topic :: Software Development :: Testing"
 ]
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 dependencies = [
   "jupyter_client >=6.1.13",
   "jsonschema"
