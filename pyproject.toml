@@ -51,7 +51,7 @@ dependencies = [
   "black[jupyter]==23.3.0",
   "mdformat>0.7",
   "mdformat-gfm>=0.3.5",
-  "ruff==0.0.270"
+  "ruff==0.0.276"
 ]
 detached = true
 [tool.hatch.envs.lint.scripts]
@@ -98,6 +98,8 @@ select = [
 ignore = [
   # FBT002 Boolean default value in function definition
   "FBT002", "FBT003",
+  # RUF012 Mutable class attributes should be annotated with `typing.ClassVar`
+  "RUF012",
 ]
 unfixable = [
   # Don't touch print statements
