@@ -405,3 +405,38 @@ class KernelTests(TestCase):
         if not found:
             emsg = "clear_output message not found"
             raise AssertionError(emsg)
+
+
+class IopubWelcomeTests(TestCase):
+    kernel_name = "python3"
+    kc: BlockingKernelClient
+    km: KernelManager
+
+    @classmethod
+    def setUpClass(cls):
+        cls.km = KernelManager(kernel_name=cls.kernel_name)
+        cls.km.start_kernel()
+        cls.kc = cls.km.client()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.kc.stop_channels()
+        cls.km.shutdown_kernel()
+
+    support_iopub_welcome = False
+
+    def test_recv_iopub_welcome_msg(self):
+        if not self.support_iopub_welcome:
+            raise SkipTest("Iopub welcome messages are not supported")  # noqa
+
+        self.kc.start_channels()
+        while True:
+            msg = self.kc.get_iopub_msg()
+            if msg:
+                self.assertEqual(msg["header"]["msg_type"], "iopub_welcome")
+                self.assertEqual(msg["msg_type"], "iopub_welcome")
+                self.assertEqual(
+                    msg["content"]["subscription"], ""
+                )  # Default: empty topic means subscription to all topics
+
+                break
