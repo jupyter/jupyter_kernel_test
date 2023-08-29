@@ -2,6 +2,27 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.6.0
+
+([Full Changelog](https://github.com/jupyter/jupyter_kernel_test/compare/v0.5.0...78b8f14cf8a7f6c4fba4cb20edd8fa293ae7a602))
+
+### Enhancements made
+
+- Add test for Jep #65 [#134](https://github.com/jupyter/jupyter_kernel_test/pull/134) ([@Hind-M](https://github.com/Hind-M))
+
+### Maintenance and upkeep improvements
+
+- Drop Python 3.7 support [#135](https://github.com/jupyter/jupyter_kernel_test/pull/135) ([@blink1073](https://github.com/blink1073))
+- Add more linting [#127](https://github.com/jupyter/jupyter_kernel_test/pull/127) ([@blink1073](https://github.com/blink1073))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/jupyter_kernel_test/graphs/contributors?from=2023-01-27&to=2023-08-29&type=c))
+
+[@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Ablink1073+updated%3A2023-01-27..2023-08-29&type=Issues) | [@Hind-M](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3AHind-M+updated%3A2023-01-27..2023-08-29&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Apre-commit-ci+updated%3A2023-01-27..2023-08-29&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.5.0
 
 ([Full Changelog](https://github.com/jupyter/jupyter_kernel_test/compare/v0.4.5...c3ffbd013b1cdd32d7273d4fbe9ee0ab61af7a1e))
@@ -24,8 +45,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyter/jupyter_kernel_test/graphs/contributors?from=2022-08-22&to=2023-01-27&type=c))
 
 [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Ablink1073+updated%3A2022-08-22..2023-01-27&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Adependabot+updated%3A2022-08-22..2023-01-27&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Apre-commit-ci+updated%3A2022-08-22..2023-01-27&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.4.5
 
