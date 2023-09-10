@@ -2,8 +2,10 @@
 
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
+from __future__ import annotations
 
 import re
+from typing import Any
 
 from jsonschema import Draft4Validator, ValidationError
 
@@ -11,12 +13,12 @@ protocol_version = (5, 1)
 
 # These fragments will be wrapped in the boilerplate for a valid JSON schema.
 # We also add a default 'required' containing all keys.
-schema_fragments: dict = {}
+schema_fragments: dict[str, Any] = {}
 
 
-def get_msg_content_validator(msg_type, version_minor):
+def get_msg_content_validator(msg_type: str, version_minor: int) -> Draft4Validator:
     frag = schema_fragments[msg_type]
-    schema = {
+    schema: dict[str, Any] = {
         "$schema": "http://json-schema.org/draft-04/schema#",
         "description": f"{msg_type} message contents schema",
         "type": "object",
@@ -61,7 +63,7 @@ msg_schema = {
 msg_structure_validator = Draft4Validator(msg_schema)
 
 
-def get_error_reply_validator(version_minor):
+def get_error_reply_validator(version_minor: int) -> Draft4Validator:
     return Draft4Validator(
         {
             "$schema": "http://json-schema.org/draft-04/schema#",
@@ -79,7 +81,7 @@ def get_error_reply_validator(version_minor):
     )
 
 
-def get_abort_reply_validator(version_minor):
+def get_abort_reply_validator(version_minor: int) -> Draft4Validator:
     return Draft4Validator(
         {
             "$schema": "http://json-schema.org/draft-04/schema#",
@@ -110,9 +112,11 @@ reply_msgs_using_status = {
 }
 
 
-def validate_message(msg, msg_type=None, parent_id=None):  # noqa
+def validate_message(  # noqa: C901,PLR0912
+    msg: dict[str, Any] | None, msg_type: str | None = None, parent_id: str | None = None
+) -> None:
     msg_structure_validator.validate(msg)
-
+    assert msg is not None
     msg_version_s = msg["header"]["version"]
     m = re.match(r"(\d+)\.(\d+)", msg_version_s)
     if not m:
@@ -131,8 +135,8 @@ def validate_message(msg, msg_type=None, parent_id=None):  # noqa
     if version_minor <= protocol_version[1]:
         unx_top = set(msg) - set(msg_schema["properties"])
         if unx_top:
-            msg = f"Unexpected keys: {unx_top}"
-            raise ValidationError(msg)
+            emsg = f"Unexpected keys: {unx_top}"
+            raise ValidationError(emsg)
 
         unx_header = set(msg["header"]) - set(header_part["properties"])
         if unx_header:
@@ -157,8 +161,8 @@ def validate_message(msg, msg_type=None, parent_id=None):  # noqa
         elif status == "ok":
             content_vdor = get_msg_content_validator(msg_type, version_minor)
         else:
-            msg = f"status {status!r} should be ok/error/abort"
-            raise ValidationError(msg)
+            emsg = f"status {status!r} should be ok/error/abort"
+            raise ValidationError(emsg)
     else:
         content_vdor = get_msg_content_validator(msg_type, version_minor)
 
