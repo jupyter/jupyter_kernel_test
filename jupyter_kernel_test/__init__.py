@@ -74,9 +74,9 @@ class KernelTests(TestCase):
         self,
         code: str,
         timeout: int = TIMEOUT,
-        silent=False,
-        store_history=True,
-        stop_on_error=True,
+        silent: bool = False,
+        store_history: bool = True,
+        stop_on_error: bool = True,
     ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
         msg_id = self.kc.execute(
             code=code, silent=silent, store_history=store_history, stop_on_error=stop_on_error

@@ -83,13 +83,11 @@ target-version = ["py37"]
 target-version = "py37"
 line-length = 100
 select = [
-  "A", "B", "C", "DTZ", "E", "EM", "F", "FBT", "I", "ICN", "ISC", "N",
+  "A", "B", "C", "DTZ", "E", "EM", "F", "I", "ICN", "ISC", "N",
   "PLC", "PLE", "PLR", "PLW", "Q", "RUF", "S", "SIM", "T", "TID", "UP",
   "W", "YTT",
 ]
 ignore = [
-  # FBT002 Boolean default value in function definition
-  "FBT002", "FBT003",
   # RUF012 Mutable class attributes should be annotated with `typing.ClassVar`
   "RUF012",
   # S101 Use of `assert` detected
