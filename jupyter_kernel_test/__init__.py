@@ -2,14 +2,16 @@
 """
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
+from __future__ import annotations
 
 import inspect
 from queue import Empty
+from typing import Any
 from unittest import SkipTest, TestCase
 
 from jupyter_client.blocking.client import BlockingKernelClient
 from jupyter_client.manager import KernelManager, start_new_kernel
-from jupyter_client.utils import run_sync
+from jupyter_client.utils import run_sync  # type:ignore[attr-defined]
 
 from .msgspec_v5 import validate_message
 
@@ -18,7 +20,7 @@ TIMEOUT = 15
 __version__ = "0.6.0"
 
 
-def ensure_sync(func):
+def ensure_sync(func: Any) -> Any:
     if inspect.iscoroutinefunction(func):
         return run_sync(func)
     return func
@@ -30,15 +32,15 @@ class KernelTests(TestCase):
     km: KernelManager
 
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls) -> None:
         cls.km, cls.kc = start_new_kernel(kernel_name=cls.kernel_name)
 
     @classmethod
-    def tearDownClass(cls):
+    def tearDownClass(cls) -> None:
         cls.kc.stop_channels()
         cls.km.shutdown_kernel()
 
-    def flush_channels(self):
+    def flush_channels(self) -> None:
         for channel in (self.kc.shell_channel, self.kc.iopub_channel):
             while True:
                 try:
@@ -53,7 +55,7 @@ class KernelTests(TestCase):
     language_name = ""
     file_extension = ""
 
-    def test_kernel_info(self):
+    def test_kernel_info(self) -> None:
         self.flush_channels()
 
         msg_id = self.kc.kernel_info()
@@ -69,13 +71,19 @@ class KernelTests(TestCase):
             self.assertTrue(reply["content"]["language_info"]["file_extension"].startswith("."))
 
     def execute_helper(  # noqa
-        self, code, timeout=TIMEOUT, silent=False, store_history=True, stop_on_error=True
-    ):
+        self,
+        code: str,
+        timeout: int = TIMEOUT,
+        silent=False,
+        store_history=True,
+        stop_on_error=True,
+    ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
         msg_id = self.kc.execute(
             code=code, silent=silent, store_history=store_history, stop_on_error=stop_on_error
         )
 
         reply = self.get_non_kernel_info_reply(timeout=timeout)
+        assert reply is not None
         validate_message(reply, "execute_reply", msg_id)
 
         busy_msg = ensure_sync(self.kc.iopub_channel.get_msg)(timeout=1)
@@ -98,7 +106,7 @@ class KernelTests(TestCase):
 
     code_hello_world = ""
 
-    def test_execute_stdout(self):
+    def test_execute_stdout(self) -> None:
         if not self.code_hello_world:
             raise SkipTest("No code hello world")  # noqa
 
@@ -119,7 +127,7 @@ class KernelTests(TestCase):
 
     code_stderr = ""
 
-    def test_execute_stderr(self):
+    def test_execute_stderr(self) -> None:
         if not self.code_stderr:
             raise SkipTest("No code stderr")  # noqa
 
@@ -138,15 +146,15 @@ class KernelTests(TestCase):
                 False, "Expected one output message of type 'stream' and 'content.name'='stderr'"
             )
 
-    completion_samples: list = []
+    completion_samples: list[dict[str, Any]] = []
 
-    def get_non_kernel_info_reply(self, timeout=None):
+    def get_non_kernel_info_reply(self, timeout: float | None = None) -> dict[str, Any] | None:
         while True:
             reply = self.kc.get_shell_msg(timeout=timeout)
             if reply["header"]["msg_type"] != "kernel_info_reply":
                 return reply
 
-    def test_completion(self):
+    def test_completion(self) -> None:
         if not self.completion_samples:
             raise SkipTest("No completion samples")  # noqa
 
@@ -155,22 +163,24 @@ class KernelTests(TestCase):
                 msg_id = self.kc.complete(sample["text"])
                 reply = self.get_non_kernel_info_reply()
                 validate_message(reply, "complete_reply", msg_id)
+                assert reply is not None
                 if "matches" in sample:
                     self.assertEqual(set(reply["content"]["matches"]), set(sample["matches"]))
 
-    complete_code_samples: list = []
-    incomplete_code_samples: list = []
-    invalid_code_samples: list = []
+    complete_code_samples: list[str] = []
+    incomplete_code_samples: list[str] = []
+    invalid_code_samples: list[str] = []
 
-    def check_is_complete(self, sample, status):
+    def check_is_complete(self, sample: str, status: str) -> None:
         msg_id = self.kc.is_complete(sample)
         reply = self.get_non_kernel_info_reply()
         validate_message(reply, "is_complete_reply", msg_id)
+        assert reply is not None
         if reply["content"]["status"] != status:
             msg = "For code sample\n  {!r}\nExpected {!r}, got {!r}."
             raise AssertionError(msg.format(sample, status, reply["content"]["status"]))
 
-    def test_is_complete(self):
+    def test_is_complete(self) -> None:
         if not (
             self.complete_code_samples or self.incomplete_code_samples or self.invalid_code_samples
         ):
@@ -192,7 +202,7 @@ class KernelTests(TestCase):
 
     code_page_something = ""
 
-    def test_pager(self):
+    def test_pager(self) -> None:
         if not self.code_page_something:
             raise SkipTest("No code page something")  # noqa
 
@@ -208,7 +218,7 @@ class KernelTests(TestCase):
 
     code_generate_error = ""
 
-    def test_error(self):
+    def test_error(self) -> None:
         if not self.code_generate_error:
             raise SkipTest("No code generate error")  # noqa
 
@@ -219,9 +229,9 @@ class KernelTests(TestCase):
         self.assertEqual(len(output_msgs), 1)
         self.assertEqual(output_msgs[0]["msg_type"], "error")
 
-    code_execute_result: list = []
+    code_execute_result: list[dict[str, str]] = []
 
-    def test_execute_result(self):
+    def test_execute_result(self) -> None:
         if not self.code_execute_result:
             raise SkipTest("No code execute result")  # noqa
 
@@ -249,9 +259,9 @@ class KernelTests(TestCase):
                     emsg = "execute_result message not found"
                     raise AssertionError(emsg)
 
-    code_display_data: list = []
+    code_display_data: list[dict[str, str]] = []
 
-    def test_display_data(self):
+    def test_display_data(self) -> None:
         if not self.code_display_data:
             raise SkipTest("No code display data")  # noqa
 
@@ -278,21 +288,24 @@ class KernelTests(TestCase):
     code_history_pattern = ""
     supported_history_operations = ()
 
-    def history_helper(self, execute_first, timeout=TIMEOUT, **histargs):
+    def history_helper(
+        self, execute_first: Any, timeout: float | None = TIMEOUT, **histargs: Any
+    ) -> dict[str, Any]:
         self.flush_channels()
 
         for code in execute_first:
-            reply, output_msgs = self.execute_helper(code)
+            self.execute_helper(code)
 
         self.flush_channels()
         msg_id = self.kc.history(**histargs)
 
         reply = self.get_non_kernel_info_reply(timeout=timeout)
         validate_message(reply, "history_reply", msg_id)
+        assert reply is not None
 
         return reply
 
-    def test_history(self):
+    def test_history(self) -> None:
         if not self.code_execute_result:
             raise SkipTest("No code execute result")  # noqa
 
@@ -372,7 +385,7 @@ class KernelTests(TestCase):
 
     code_inspect_sample = ""
 
-    def test_inspect(self):
+    def test_inspect(self) -> None:
         if not self.code_inspect_sample:
             raise SkipTest("No code inspect sample")  # noqa
 
@@ -380,14 +393,14 @@ class KernelTests(TestCase):
         msg_id = self.kc.inspect(self.code_inspect_sample)
         reply = self.get_non_kernel_info_reply(timeout=TIMEOUT)
         validate_message(reply, "inspect_reply", msg_id)
-
+        assert reply is not None
         self.assertEqual(reply["content"]["status"], "ok")
         self.assertTrue(reply["content"]["found"])
         self.assertGreaterEqual(len(reply["content"]["data"]), 1)
 
     code_clear_output = ""
 
-    def test_clear_output(self):
+    def test_clear_output(self) -> None:
         if not self.code_clear_output:
             raise SkipTest("No code clear output")  # noqa
 
@@ -413,19 +426,19 @@ class IopubWelcomeTests(TestCase):
     km: KernelManager
 
     @classmethod
-    def setUpClass(cls):
-        cls.km = KernelManager(kernel_name=cls.kernel_name)
+    def setUpClass(cls) -> None:
+        cls.km = KernelManager(kernel_name=cls.kernel_name)  # type:ignore[no-untyped-call]
         cls.km.start_kernel()
         cls.kc = cls.km.client()
 
     @classmethod
-    def tearDownClass(cls):
+    def tearDownClass(cls) -> None:
         cls.kc.stop_channels()
         cls.km.shutdown_kernel()
 
     support_iopub_welcome = False
 
-    def test_recv_iopub_welcome_msg(self):
+    def test_recv_iopub_welcome_msg(self) -> None:
         if not self.support_iopub_welcome:
             raise SkipTest("Iopub welcome messages are not supported")  # noqa
 

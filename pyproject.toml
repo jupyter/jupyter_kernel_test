@@ -92,6 +92,8 @@ ignore = [
   "FBT002", "FBT003",
   # RUF012 Mutable class attributes should be annotated with `typing.ClassVar`
   "RUF012",
+  # S101 Use of `assert` detected
+  "S101",
 ]
 unfixable = [
   # Don't touch print statements
