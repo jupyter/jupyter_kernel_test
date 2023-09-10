@@ -42,9 +42,9 @@ test = "python -m unittest -v {args}"
 
 [tool.hatch.envs.typing]
 features = [ "test"]
-dependencies = ["mypy>=0.990"]
+dependencies = ["mypy>=1.5.1"]
 [tool.hatch.envs.typing.scripts]
-test = "mypy --install-types --non-interactive {args:jupyter_kernel_test}"
+test = "mypy --install-types --non-interactive {args}"
 
 [tool.hatch.envs.lint]
 dependencies = [
@@ -67,20 +67,12 @@ fmt = [
 ]
 
 [tool.mypy]
-check_untyped_defs = true
-disallow_incomplete_defs = true
-disallow_untyped_decorators = true
-no_implicit_optional = true
-no_implicit_reexport = true
-pretty = true
-show_error_context = true
+files = "jupyter_kernel_test"
+python_version = "3.8"
+strict = true
 show_error_codes = true
-strict_equality = true
-strict_optional = true
-warn_unused_configs = true
-warn_redundant_casts = true
-warn_return_any = true
-warn_unused_ignores = true
+enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool"]
+warn_unreachable = true
 
 [tool.black]
 line-length = 100
@@ -107,3 +99,6 @@ unfixable = [
   # Don't touch noqa lines
   "RUF100",
 ]
+
+[tool.repo-review]
+ignore = ["PY004", "PY007","PP301", "PP308", "GH102", "PC140", "RTD100"]
