@@ -40,6 +40,7 @@ Example
     import unittest
     import jupyter_kernel_test
 
+
     class MyKernelTests(jupyter_kernel_test.KernelTests):
         # Required --------------------------------------
 
@@ -59,15 +60,11 @@ Example
 
         # Samples of code which generate a result value (ie, some text
         # displayed as Out[n])
-        code_execute_result = [
-            {'code': '6*7', 'result': '42'}
-        ]
+        code_execute_result = [{"code": "6*7", "result": "42"}]
 
         # Samples of code which should generate a rich display output, and
         # the expected MIME type
-        code_display_data = [
-            {'code': 'show_image()', 'mime': 'image/png'}
-        ]
+        code_display_data = [{"code": "show_image()", "mime": "image/png"}]
 
         # You can also write extra tests. We recommend putting your kernel name
         # in the method name, to avoid clashing with any tests that
@@ -75,11 +72,12 @@ Example
         def test_mykernel_stderr(self):
             self.flush_channels()
             reply, output_msgs = self.execute_helper(code='print_err "oops"')
-            self.assertEqual(output_msgs[0]['header']['msg_type'], 'stream')
-            self.assertEqual(output_msgs[0]['content']['name'], 'stderr')
-            self.assertEqual(output_msgs[0]['content']['text'], 'oops\n')
+            self.assertEqual(output_msgs[0]["header"]["msg_type"], "stream")
+            self.assertEqual(output_msgs[0]["content"]["name"], "stderr")
+            self.assertEqual(output_msgs[0]["content"]["text"], "oops\n")
 
-    if __name__ == '__main__':
+
+    if __name__ == "__main__":
         unittest.main()
 
 --------

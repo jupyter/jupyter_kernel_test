@@ -304,7 +304,7 @@ class KernelTests(TestCase):
 
         with self.subTest(hist_access_type="tail"):
             if "tail" not in self.supported_history_operations:
-                raise SkipTest("History tail not suported")  # noqa
+                raise SkipTest("History tail not supported")  # noqa
             reply = self.history_helper(codes, output=False, raw=True, hist_access_type="tail", n=n)
             self.assertEqual(len(reply["content"]["history"]), n)
             self.assertEqual(len(reply["content"]["history"][0]), 3)
