@@ -427,7 +427,7 @@ class IopubWelcomeTests(TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.km = KernelManager(kernel_name=cls.kernel_name)  # type:ignore[no-untyped-call]
+        cls.km = KernelManager(kernel_name=cls.kernel_name)
         cls.km.start_kernel()
         cls.kc = cls.km.client()
 
