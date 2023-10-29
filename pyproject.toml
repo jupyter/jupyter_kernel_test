@@ -48,21 +48,20 @@ test = "mypy --install-types --non-interactive {args}"
 
 [tool.hatch.envs.lint]
 dependencies = [
-  "black[jupyter]==23.3.0",
   "mdformat>0.7",
   "mdformat-gfm>=0.3.5",
-  "ruff==0.0.276"
+  "ruff==0.1.3"
 ]
 detached = true
 [tool.hatch.envs.lint.scripts]
 style = [
   "ruff {args:.}",
-  "black --check --diff {args:.}",
+  "ruff format {args:.}",
   "mdformat --check {args:*.md}"
 ]
 fmt = [
-  "black {args:.}",
   "ruff --fix {args:.}",
+  "ruff format {args:.}",
   "mdformat {args:*.md}"
 ]
 
@@ -74,16 +73,13 @@ show_error_codes = true
 enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool"]
 warn_unreachable = true
 
-[tool.black]
-line-length = 100
-skip-string-normalization = true
-target-version = ["py37"]
-
 [tool.ruff]
-target-version = "py37"
+target-version = "py38"
 line-length = 100
+
+[tool.ruff.lint]
 select = [
-  "A", "B", "C", "DTZ", "E", "EM", "F", "I", "ICN", "ISC", "N",
+  "A", "B", "C", "DTZ", "E", "EM", "F", "I", "ICN", "N",
   "PLC", "PLE", "PLR", "PLW", "Q", "RUF", "S", "SIM", "T", "TID", "UP",
   "W", "YTT",
 ]
