@@ -21,7 +21,7 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.27.2
+    rev: 0.27.3
     hooks:
       - id: check-github-workflows
 
@@ -67,7 +67,7 @@ repos:
         additional_dependencies: ["jupyter_client"]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.6
+    rev: v0.1.8
     hooks:
       - id: ruff
         types_or: [python, jupyter]
