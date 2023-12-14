@@ -112,7 +112,7 @@ reply_msgs_using_status = {
 }
 
 
-def validate_message(  # noqa: C901,PLR0912
+def validate_message(
     msg: dict[str, Any] | None, msg_type: str | None = None, parent_id: str | None = None
 ) -> None:
     msg_structure_validator.validate(msg)

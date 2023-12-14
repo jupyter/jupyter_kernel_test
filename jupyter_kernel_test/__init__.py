@@ -70,7 +70,7 @@ class KernelTests(TestCase):
             )
             self.assertTrue(reply["content"]["language_info"]["file_extension"].startswith("."))
 
-    def execute_helper(  # noqa
+    def execute_helper(
         self,
         code: str,
         timeout: int = TIMEOUT,
@@ -97,7 +97,7 @@ class KernelTests(TestCase):
             if msg["msg_type"] == "status":
                 self.assertEqual(msg["content"]["execution_state"], "idle")
                 break
-            elif msg["msg_type"] == "execute_input":
+            if msg["msg_type"] == "execute_input":
                 self.assertEqual(msg["content"]["code"], code)
                 continue
             output_msgs.append(msg)
@@ -108,7 +108,7 @@ class KernelTests(TestCase):
 
     def test_execute_stdout(self) -> None:
         if not self.code_hello_world:
-            raise SkipTest("No code hello world")  # noqa
+            raise SkipTest("No code hello world")
 
         self.flush_channels()
         reply, output_msgs = self.execute_helper(code=self.code_hello_world)
@@ -129,7 +129,7 @@ class KernelTests(TestCase):
 
     def test_execute_stderr(self) -> None:
         if not self.code_stderr:
-            raise SkipTest("No code stderr")  # noqa
+            raise SkipTest("No code stderr")
 
         self.flush_channels()
         reply, output_msgs = self.execute_helper(code=self.code_stderr)
@@ -156,7 +156,7 @@ class KernelTests(TestCase):
 
     def test_completion(self) -> None:
         if not self.completion_samples:
-            raise SkipTest("No completion samples")  # noqa
+            raise SkipTest("No completion samples")
 
         for sample in self.completion_samples:
             with self.subTest(text=sample["text"]):
@@ -184,7 +184,7 @@ class KernelTests(TestCase):
         if not (
             self.complete_code_samples or self.incomplete_code_samples or self.invalid_code_samples
         ):
-            raise SkipTest("Not testing is_complete")  # noqa
+            raise SkipTest("Not testing is_complete")
 
         self.flush_channels()
 
@@ -204,7 +204,7 @@ class KernelTests(TestCase):
 
     def test_pager(self) -> None:
         if not self.code_page_something:
-            raise SkipTest("No code page something")  # noqa
+            raise SkipTest("No code page something")
 
         self.flush_channels()
 
@@ -220,7 +220,7 @@ class KernelTests(TestCase):
 
     def test_error(self) -> None:
         if not self.code_generate_error:
-            raise SkipTest("No code generate error")  # noqa
+            raise SkipTest("No code generate error")
 
         self.flush_channels()
 
@@ -233,7 +233,7 @@ class KernelTests(TestCase):
 
     def test_execute_result(self) -> None:
         if not self.code_execute_result:
-            raise SkipTest("No code execute result")  # noqa
+            raise SkipTest("No code execute result")
 
         for sample in self.code_execute_result:
             with self.subTest(code=sample["code"]):
@@ -263,7 +263,7 @@ class KernelTests(TestCase):
 
     def test_display_data(self) -> None:
         if not self.code_display_data:
-            raise SkipTest("No code display data")  # noqa
+            raise SkipTest("No code display data")
 
         for sample in self.code_display_data:
             with self.subTest(code=sample["code"]):
@@ -307,7 +307,7 @@ class KernelTests(TestCase):
 
     def test_history(self) -> None:
         if not self.code_execute_result:
-            raise SkipTest("No code execute result")  # noqa
+            raise SkipTest("No code execute result")
 
         codes = [s["code"] for s in self.code_execute_result]
         _ = [s.get("result", "") for s in self.code_execute_result]
@@ -317,7 +317,7 @@ class KernelTests(TestCase):
 
         with self.subTest(hist_access_type="tail"):
             if "tail" not in self.supported_history_operations:
-                raise SkipTest("History tail not supported")  # noqa
+                raise SkipTest("History tail not supported")
             reply = self.history_helper(codes, output=False, raw=True, hist_access_type="tail", n=n)
             self.assertEqual(len(reply["content"]["history"]), n)
             self.assertEqual(len(reply["content"]["history"][0]), 3)
@@ -332,9 +332,9 @@ class KernelTests(TestCase):
 
         with self.subTest(hist_access_type="range"):
             if "range" not in self.supported_history_operations:
-                raise SkipTest("History range not supported")  # noqa
+                raise SkipTest("History range not supported")
             if session is None:
-                raise SkipTest("No session")  # noqa
+                raise SkipTest("No session")
             reply = self.history_helper(
                 codes,
                 output=False,
@@ -350,9 +350,9 @@ class KernelTests(TestCase):
 
         with self.subTest(hist_access_type="search"):
             if not self.code_history_pattern:
-                raise SkipTest("No code history pattern")  # noqa
+                raise SkipTest("No code history pattern")
             if "search" not in self.supported_history_operations:
-                raise SkipTest("History search not supported")  # noqa
+                raise SkipTest("History search not supported")
             with self.subTest(subsearch="normal"):
                 reply = self.history_helper(
                     codes,
@@ -387,7 +387,7 @@ class KernelTests(TestCase):
 
     def test_inspect(self) -> None:
         if not self.code_inspect_sample:
-            raise SkipTest("No code inspect sample")  # noqa
+            raise SkipTest("No code inspect sample")
 
         self.flush_channels()
         msg_id = self.kc.inspect(self.code_inspect_sample)
@@ -402,7 +402,7 @@ class KernelTests(TestCase):
 
     def test_clear_output(self) -> None:
         if not self.code_clear_output:
-            raise SkipTest("No code clear output")  # noqa
+            raise SkipTest("No code clear output")
 
         self.flush_channels()
         reply, output_msgs = self.execute_helper(code=self.code_clear_output)
@@ -440,7 +440,7 @@ class IopubWelcomeTests(TestCase):
 
     def test_recv_iopub_welcome_msg(self) -> None:
         if not self.support_iopub_welcome:
-            raise SkipTest("Iopub welcome messages are not supported")  # noqa
+            raise SkipTest("Iopub welcome messages are not supported")
 
         self.kc.start_channels()
         while True:
