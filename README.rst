@@ -62,6 +62,23 @@ Example
         # displayed as Out[n])
         code_execute_result = [{"code": "6*7", "result": "42"}]
 
+        # Samples of code which needs completion
+        completion_samples = [
+            {'text': 'my_long', 'matches': ['my_long_variable_name', 'my_long_function_name']},
+            {'text': 'a.', 'matches': ['a.foo', 'a.bar']}
+        ]
+
+        # Samples of code which are complete, incomplete, or invalid
+        complete_code_samples = ['a = 3']
+        incomplete_code_samples = ['def foo:']
+        invalid_code_samples = ['this is invalid python code, right?']
+
+        # Sample of code which can be inspected
+        code_inspect_sample = 'print?'
+
+        # Sample of code which should clear the output
+        code_clear_output = 'clear'
+
         # Samples of code which should generate a rich display output, and
         # the expected MIME type
         code_display_data = [{"code": "show_image()", "mime": "image/png"}]
