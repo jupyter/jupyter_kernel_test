@@ -2,6 +2,32 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.7.0
+
+([Full Changelog](https://github.com/jupyter/jupyter_kernel_test/compare/v0.6.0...d3955dc57fff27ea45003b7720d511ce2803f3a4))
+
+### Maintenance and upkeep improvements
+
+- Update Release Scripts [#148](https://github.com/jupyter/jupyter_kernel_test/pull/148) ([@blink1073](https://github.com/blink1073))
+- chore: update pre-commit hooks [#147](https://github.com/jupyter/jupyter_kernel_test/pull/147) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- Update ruff config [#146](https://github.com/jupyter/jupyter_kernel_test/pull/146) ([@blink1073](https://github.com/blink1073))
+- chore: update pre-commit hooks [#145](https://github.com/jupyter/jupyter_kernel_test/pull/145) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- Bump conda-incubator/setup-miniconda from 2 to 3 [#144](https://github.com/jupyter/jupyter_kernel_test/pull/144) ([@dependabot](https://github.com/dependabot))
+- chore: update pre-commit hooks [#143](https://github.com/jupyter/jupyter_kernel_test/pull/143) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- Clean up lint handling [#142](https://github.com/jupyter/jupyter_kernel_test/pull/142) ([@blink1073](https://github.com/blink1073))
+- Adopt ruff format [#141](https://github.com/jupyter/jupyter_kernel_test/pull/141) ([@blink1073](https://github.com/blink1073))
+- chore: update pre-commit hooks [#140](https://github.com/jupyter/jupyter_kernel_test/pull/140) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- Adopt sp-repo-review [#139](https://github.com/jupyter/jupyter_kernel_test/pull/139) ([@blink1073](https://github.com/blink1073))
+- Bump actions/checkout from 3 to 4 [#137](https://github.com/jupyter/jupyter_kernel_test/pull/137) ([@dependabot](https://github.com/dependabot))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/jupyter_kernel_test/graphs/contributors?from=2023-08-29&to=2024-03-12&type=c))
+
+[@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Ablink1073+updated%3A2023-08-29..2024-03-12&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Adependabot+updated%3A2023-08-29..2024-03-12&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Apre-commit-ci+updated%3A2023-08-29..2024-03-12&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.6.0
 
 ([Full Changelog](https://github.com/jupyter/jupyter_kernel_test/compare/v0.5.0...78b8f14cf8a7f6c4fba4cb20edd8fa293ae7a602))
@@ -20,8 +46,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyter/jupyter_kernel_test/graphs/contributors?from=2023-01-27&to=2023-08-29&type=c))
 
 [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Ablink1073+updated%3A2023-01-27..2023-08-29&type=Issues) | [@Hind-M](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3AHind-M+updated%3A2023-01-27..2023-08-29&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fjupyter_kernel_test+involves%3Apre-commit-ci+updated%3A2023-01-27..2023-08-29&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.5.0
 
